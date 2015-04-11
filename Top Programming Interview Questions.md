@@ -6,19 +6,19 @@
 
 ## Top 30 Programmig Questions
 
-* ### [String Programming Questions](#String)
-* ### [Array Programming Questions](#Array)
-* ### [LinkedList Programming Questions](#LinkedList)
-* ### [Binary Tree Programming Questions](#BinaryTree)
-* ### [Searching and Sorting Programming Questions](#SearchingSorting)
-* ### [Numbers Programming Questions](#Numbers)
-* ### [General Programming Questions](#General)
+* [String Programming Questions](#String)
+* [Array Programming Questions](#Array)
+* [LinkedList Programming Questions](#LinkedList)
+* [Binary Tree Programming Questions](#BinaryTree)
+* [Searching and Sorting Programming Questions](#SearchingSorting)
+* [Numbers Programming Questions](#Numbers)
+* [General Programming Questions](#General)
 
 ### [](id:String)String Programming Questions
 
 * **Write a code to check if a String is a palindrome or not.**
 
-	```
+```
 public class PalindromeString {
 	public static boolean isPalindrome(String str) {
 		if (str.isEmpty())
@@ -61,11 +61,11 @@ public class PalindromeString {
 		System.out.println(isPalindrome2("A man, a plan, a canal: Panama."));
 	}
 }
-	```
+```
 
 * **Write a method which will remove any given character from a String.**
 
-	```
+```
 public class RemoveCharFromString {
 	public static String removeChar(String str, char c) {
 		if (str == null)
@@ -78,12 +78,12 @@ public class RemoveCharFromString {
 		System.out.println(removeChar("Rabbits raced really rapid.", 'r'));
 	}
 }
-	```
+```
 
 
 * **Print all permutation of String both iterative and Recursive way.**
 
-	```
+```
 public class PermutationOfString {
 	public static void permutationRecursive(String str) {
 		permutationRecursive("", str);
@@ -139,11 +139,11 @@ public class PermutationOfString {
 		permutationIterative("cat");
 	}
 }
-	```
+```
 
 * **Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to subString.**
 
-	```
+```
 public class TwoStringPermutationCheck {
 	public static boolean isSubstring(String s1, String s2) {
 		if (s1.length() != s2.length())
@@ -162,14 +162,14 @@ public class TwoStringPermutationCheck {
 		System.out.println(isSubstring("camera", "macera"));
 	}
 }
-	```
+```
 
 
 * **Write a function fo find out the longest palindrome in a given String.**
 
 * **How to find first non repeated character of a given String?**
 
-	```
+```
 public class FirstNonRepeatedChar {
 	public static char firstNonRepeatedCharacterLinkedHashMap(String word) {
 		Map<Character, Integer> counts = new LinkedHashMap<Character, Integer>();
@@ -233,7 +233,7 @@ public class FirstNonRepeatedChar {
 		throw new RuntimeException("Undefined behaviour");
 	}
 }
-	```
+```
 
 
 * **How to count occurence of a given character in a String?**

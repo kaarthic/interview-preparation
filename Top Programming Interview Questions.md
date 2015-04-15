@@ -236,17 +236,127 @@ public class FirstNonRepeatedChar {
 ```
 
 
-* **How to count occurence of a given character in a String?**
+* **Design a method to find the frequency of occurrences of any given word in a book**
+
+```
+public class FrequencyWord {
+	public static Hashtable<String, Integer> setupDictionary(String[] book) {
+		Hashtable<String, Integer> table = new Hashtable<String, Integer>();
+		
+		for (String word : book) {
+			word = word.toLowerCase();
+			
+			if (word.trim() != "") {
+				if (!table.contains(word)) {
+					table.put(word, 0);
+				}
+				
+				table.put(word, table.get(word) + 1);
+			}
+		}
+		
+		return table;
+	}
+	
+	public static int getFrequency(Hashtable<String, Integer> table, String word) {
+		if (table == null || word == null) {
+			return -1;
+		}
+		
+		word = word.toLowerCase();
+		
+		if (table.contains(word)) {
+			return table.get(word);
+		}
+		
+		return 0;
+	}
+	
+	public static void main(String[] args) {
+		String[] wordlist = AssortedMethods.getLongTextBlobAsStringList();
+		Hashtable<String, Integer> dictionary = setupDictionary(wordlist);
+		
+		String[] words = {"the", "Lara", "and", "outcropping", "career", "it"};
+		
+		for (String word : words) {
+			System.out.println(word + ": " + getFrequency(dictionary, word));
+		}
+	}
+}
+```
+
 
 * **How to check if two Strings are anagram?**
 
+```
+public class AnagramCheck {
+	public static boolean isAnagram(String word, String anagram) {
+		if (word.length() != anagram.length())
+			return false;
+		
+		char[] chars = word.toCharArray();
+		
+		for (char c : chars) {
+			int index = anagram.indexOf(c);
+			
+			if (index != -1) {
+				anagram = anagram.substring(0, index) + anagram.substring(index + 1, anagram.length());
+			} else {
+				return false;
+			}
+		}
+		
+		return anagram.isEmpty();
+	}
+	
+	public static boolean checkAnagram(String word, String anagram) {
+		if (word.length() != anagram.length())
+			return false;
+		
+		char[] chars = word.toCharArray();
+		StringBuilder sbAnagram = new StringBuilder(anagram);
+		
+		for (char c : chars) {
+			int index = sbAnagram.indexOf("" + c);
+			
+			if (index != -1) {
+				sbAnagram.deleteCharAt(index);
+			} else {
+				return false;
+			}
+		}
+		
+		return sbAnagram.length() == 0;
+	}
+}
+```
+
+
 * **How to convert numeric String to int in Java?**
+
+```
+public class StringToInt {
+	public static int convertToInt(String numString) {
+		int length = numString.length() - 1;
+		int num = 0;
+		
+		for (int i = length; i >= 0; i--) {
+			num += ((numString.codePointAt(i) - 48) * Math.pow(10, length - i));
+		}
+		
+		return num;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(convertToInt("123"));
+	}
+}
+```
+
 
 * **Difference between String, StringBuilder, and StringBuffer in Java.**
 
 * **Why String is final in Java?**
-
-* **How to split String in Java?**
 
 * **Why char array is preffered over String for storing password?**
 
@@ -255,24 +365,224 @@ public class FirstNonRepeatedChar {
 
 * **In an array 1-100 numbers are stored, one number is missing. How would you find it?**
 
-* **In an array 1-100, exactly one number has a duplicate. How would you find it?**
+```
+public class MissingNumberInArray {
+	public static int getMissingNumber(int[] numbers) {
+		int totalCount = numbers.length + 1;
+		int expectedSum = totalCount * (totalCount + 1) / 2;
+		int actualSum = 0;
+		
+		for (int i : numbers) {
+			actualSum += i;
+		}
+		
+		return expectedSum - actualSum;
+	}
+	
+	public static void printMissingNumbers(int[] numbers, int count) {
+		int missingCount = count - numbers.length;
+		BitSet bitSet = new BitSet(count);
+		
+		for (int number : numbers) {
+			bitSet.set(number - 1);
+		}
+		
+		int lastMissingIndex = 0;
+		
+		for (int i = 0; i < missingCount; i++) {
+			lastMissingIndex = bitSet.nextClearBit(lastMissingIndex);
+			System.out.println(++lastMissingIndex);
+		}
+	}
+	
+	public static void main(String[] args) {
+		printMissingNumbers(new int[]{1, 2, 3, 4, 9, 8}, 10);
+	}
+}
+```
 
-* **Given two arrays [1, 2, 3, 4, 5] and [2, 3, 1, 0, 5], find which number is not present in the second array.**
 
-* **How do you find second highest number in an integer array?**
+* **In an array, how would you check if there are any duplicates?**
+
+```
+public class DuplicatesInArray {
+	public static boolean checkDuplicates(String[] input) {
+		Set<String> tempSet = new HashSet<String>();
+		
+		for (String str : input) {
+			if (!tempSet.add(str))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public static void main(String[] args) {
+		String[] duplicates = new String[] {"one","two","three","one"};
+		System.out.println(checkDuplicates(duplicates));
+	}
+}
+```
+
+
+* **How do you find second highest number in an integer array? Or find the top two maximum number in an array. (Cannot use any sorting function and can only iterate once)**
+
+```
+public class TopTwoMaximum {
+	public static void  topTwo(int[] numbers) {
+		int max1 = Integer.MIN_VALUE;
+		int max2 = Integer.MIN_VALUE;
+		
+		for (int number : numbers) {
+			if (number > max1) {
+				max2 = max1;
+				max1 = number;
+			} else if (number > max2) {
+				max2 = number;
+			}
+		}
+		
+		System.out.println(max2);
+	}
+	
+	public static void main(String[] args) {
+		topTwo(new int[]{20, 34, 21, 87, 92, Integer.MAX_VALUE});
+        topTwo(new int[]{0, Integer.MIN_VALUE, -2});
+        topTwo(new int[]{Integer.MAX_VALUE, 0, Integer.MAX_VALUE});
+        topTwo(new int[]{1, 1, 0});
+	}
+}
+```
+
 
 * **How to find all pairs in array of integers whose sum is equal to given number?**
 
-* **How to remove duplicate elements from array in Java?**
+```
+public class PairsInArrayToSum {
+	public static void printPairsInefficient(int[] array, int sum) {
+		for (int i = 0; i < array.length; i++) {
+			int first = array[i];
+			
+			for (int j = i + 1; j < array.length; j++) {
+				int second = array[j];
+				
+				if (first + second == sum)
+					System.out.println(first + " " + second);
+			}
+		}
+	}
+	
+	public static void printPairsSlightlyEfficient(int[] array, int sum) {
+		if (array.length < 2)
+			return;
+		
+		Set<Integer> set = new HashSet<Integer>();
+		
+		for (int number : array) {
+			int target = sum - number;
+			
+			if (!set.contains(target))
+				set.add(number);
+			else
+				System.out.println(number + " " + target);
+		}
+	}
+	
+	public static void printPairsEfficient(int[] array, int sum) {
+		if (array.length < 2)
+			return;
+		
+		Arrays.sort(array);
+		
+		int left = 0;
+		int right = array.length - 1;
+		
+		while (left < right) {
+			int pairSum = array[left] + array[right];
+			
+			if (sum == pairSum) {
+				System.out.println(array[left] + " " + array[right]);
+				left++;
+				right--;
+			} else if (pairSum < sum) {
+				left++;
+			} else if (pairSum > sum) {
+				right--;
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		printPairsInefficient(new int[]{12, 14, 17, 15, 19, 20, -11}, 9);
+		printPairsSlightlyEfficient(new int[]{12, 14, 17, 15, 19, 20, -11}, 9);
+		printPairsEfficient(new int[]{12, 14, 17, 15, 19, 20, -11}, 9);
+	}
+}
+```
 
-* **How to find largest and smallest number in array?**
 
-* **How to find top two-maximum number in array?**
+* **How to remove duplicate elements from array?**
+
+```
+public class RemoveDuplicatesInArray {
+	public static int[] removeDuplicates(int[] array) {
+		Arrays.sort(array);
+		int count = 0;
+
+		for (int i = 0; i < array.length; i++) {
+			if (i + 1 < array.length && array[i] == array[i + 1])
+				count++;
+		}
+
+		int[] arrayNoDuplicates = new int[array.length - count];
+		int index = 0;
+
+		for (int i = 0; i < array.length; i++) {
+			if (i + 1 < array.length && array[i] == array[i + 1]) {
+				continue;
+			} else {
+				arrayNoDuplicates[index] = array[i];
+				index++;
+			}
+		}
+
+		return arrayNoDuplicates;
+	}
+
+	public static void main(String[] args) {
+		int[] array = { 3, 1, 1, 4, 1, 4, 5 };
+		System.out.println(Arrays.toString(removeDuplicates(array)));
+	}
+}
+```
 
 
 ### [](id:LinkedList)LinkedList Programming Question
 
 * **How do you find a middle element of a LinkedList in a single pass?**
+
+```
+public class FindMidOfLL {
+	public static int findMid(LinkedListNode head) {
+		LinkedListNode fast = head;
+		LinkedListNode slow = head;
+		int length = 0;
+		
+		while (fast.next != null) {
+			length++;
+			fast = fast.next.next;
+			slow = slow.next;
+		}
+		
+		if (length % 2 == 1) {
+			slow = slow.next;
+		}
+		
+		return slow.data;
+	}
+}
+```
+
 
 * **How do you find 3rd element from last in single pass?**
 

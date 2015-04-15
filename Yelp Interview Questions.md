@@ -102,7 +102,8 @@
 
 * **Compilation of Python code.**
 
-* **Would it generally be better to run a binary search on a sorted array array, or a linked list? Explain the decision.**
+* **Would it generally be better to run a binary search on a sorted array array, or a linked list? Explain the decision.**  
+	Sorted array as you can do random access using index whereas you have to traverse through using linked list.
 
 * **How does memory management in your strongest language?**  
 [Memory Management](http://www.memorymanagement.org/mmref/begin.html)
@@ -133,13 +134,214 @@
 
 * **Given a corpus of a review, split it in terms sentences (Make sure to take care of ellipses, question marks and exclamation marks).**
 
+	```
+public class SplitToSentence {
+	public static ArrayList<String> splitToSentence(String review) {
+		Pattern re = Pattern.compile("[^.!?\\s][^.!?]*(?:[.!?](?!['\"]?\\s|$)[^.!?]*)*[.!?]?['\"]?(?=\\s|$)", Pattern.MULTILINE | Pattern.COMMENTS);
+		Matcher reMatcher = re.matcher(review);
+		ArrayList<String> sentences = new ArrayList<String>();
+		
+		while (reMatcher.find()) {
+			sentences.add(reMatcher.group());
+		}
+		
+		return sentences;
+	}
+	
+	public static void main(String[] args) {
+		String review = "This is how I tried to split a paragraph into a sentence! But, there is a problem. My paragraph includes dates like Jan.13, 2014 , words like U.S and numbers like 2.2? They all got splitted by the above code.";
+		ArrayList<String> sentences = splitToSentence(review);
+		
+		for (String sentence : sentences) {
+			System.out.println(sentence);
+		}
+	}
+}
+	```
+
+
 * **Implement a Most Recently Used (MRU) Cache.**
 
+	```
+public class MRU<K, V> {
+	private static final float hashTableLoadFactor = 0.75f;
+	private LinkedHashMap<K, V> map;
+	private int cacheSize;
+	
+	public MRU(int cacheSize) {
+		this.cacheSize = cacheSize;
+		int hashTableCapacity = (int) Math.ceil(cacheSize / hashTableLoadFactor) + 1;
+		map = new LinkedHashMap<K, V>(hashTableCapacity, hashTableLoadFactor, false) {
+			private static final long serialVersionUID = 1;
+			
+			protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+				return size() > MRU.this.cacheSize;
+			}
+		};
+	}
+	
+	public synchronized V get(K key) {
+		return map.get(key);
+	}
+	
+	public synchronized void put(K key, V value) {
+		map.put(key, value);
+	}
+	
+	public synchronized void clear() {
+		map.clear();
+	}
+	
+	public synchronized int usedEntries() {
+		return map.size();
+	}
+	
+	public synchronized Collection<Map.Entry<K, V>> getAll() {
+		return new ArrayList<Map.Entry<K, V>>(map.entrySet());
+	}
+}	
+	```
+
+
 * **Design a Least Recently Used Cache (LRU) Cache.**
+
+	```
+public class LRU<K, V> {
+	private static final float hashTableLoadFactor = 0.75f;
+	private LinkedHashMap<K, V> map;
+	private int cacheSize;
+	
+	public LRU(int cacheSize) {
+		this.cacheSize = cacheSize;
+		int hashTableCapacity = (int) Math.ceil(cacheSize / hashTableLoadFactor) + 1;
+		map = new LinkedHashMap<K, V>(hashTableCapacity, hashTableLoadFactor, true) {
+			private static final long serialVersionUID = 1;
+			
+			protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+				return size() > LRU.this.cacheSize;
+			}
+		};
+	}
+	
+	public synchronized V get(K key) {
+		return map.get(key);
+	}
+	
+	public synchronized void put(K key, V value) {
+		map.put(key, value);
+	}
+	
+	public synchronized void clear() {
+		map.clear();
+	}
+	
+	public synchronized int usedEntries() {
+		return map.size();
+	}
+	
+	public synchronized Collection<Map.Entry<K, V>> getAll() {
+		return new ArrayList<Map.Entry<K, V>>(map.entrySet());
+	}
+}	
+	```
+
 
 * **Given an iterator interface for 1 word, extend to implement an iterator function for two words.**
 
 * **Implement a trie. (Write the API and code for inserting into a trie)**
+
+```
+public class TrieNode {
+	char content;
+	boolean isEnd;
+	int count;
+	LinkedList<TrieNode> childList;
+	
+	public TrieNode(char c) {
+		content = c;
+		isEnd = false;
+		count = 0;
+		childList = new LinkedList<TrieNode>();
+	}
+	
+	public TrieNode subNode(char c) {
+		if (childList != null)
+			for (TrieNode child : childList)
+				if (child.content == c)
+					return child;
+		
+		return null;
+	}
+}
+
+public class Trie {
+	private TrieNode root;
+	
+	public Trie() {
+		root = new TrieNode(' ');
+	}
+	
+	public void insert(String word) {
+		if (search(word))
+			return;
+		
+		TrieNode current = root;
+		
+		for (char c : word.toCharArray()) {
+			TrieNode child = current.subNode(c);
+			
+			if (child != null)
+				current = child;
+			else {
+				current.childList.add(new TrieNode(c));
+				current = current.subNode(c);
+			}
+			
+			current.count++;
+		}
+		
+		current.isEnd = true;
+	}
+	
+	public boolean search(String word) {
+		TrieNode current = root;
+		
+		for (char c : word.toCharArray()) {
+			if (current.subNode(c) == null)
+				return false;
+			else
+				current = current.subNode(c);
+		}
+		
+		if (current.isEnd)
+			return true;
+		
+		return false;
+	}
+	
+	public void remove(String word) {
+		if (!search(word))
+			return;
+		
+		TrieNode current = root;
+		
+		for (char c : word.toCharArray()) {
+			TrieNode child = current.subNode(c);
+			
+			if (child.count == 1) {
+				current.childList.remove(child);
+				return;
+			} else {
+				child.count--;
+				current = child;
+			}
+		}
+		
+		current.isEnd = false;
+	}
+}	
+```
+
 
 * **Given an array of Strings and return all groups of strings that are anagrams. Continue with a huge list of words that won’t fit in memory. Example input : [“art”, rat”, “bats”, “banana”, “stab”, “tar”]; output = [[“art”, “rat”, “tar”], [“bats”, “stab”], [“banana”]].**
 
@@ -343,9 +545,42 @@
 
 * **How does Java GC work, and how to implement GC.**
 
-* **What is inline function?**
+* **What is inline function?**  
+	Inline functions are a lot like a placeholder. Once you define an inline function, using the 'inline' keyword, whenever you call that function the compiler will replace the function call with actual code from the function. The purpose of inline function is to reduce the function call overhead.
+	
+	```
+#include <iostream>
+using namespace std;
+inline void hello() {
+	cout << "hello";
+}
+int main() {
+	hello(); // call it like a normal function
+	cin.get();
+}
+	```
 
 * **Describe why compiler does not perform inline in some circumstances.**
+	1. If a function contains a loop. (for, while, do-while)
+	2. If a function contains static variables.
+	3. If a function is recursive.
+	4. If a function return type is other than void, and the return statement doesn't exist in function body.
+	5. If a function contains switch or goto statement.
+	
+	Advantages of inline?
+	1. Function call overhead doesn't occur.
+	2. It also saves the overhead of push/pop variables on the stack when function is called.
+	3. It also saves overhead of a return call from a function.
+	4. When you inline a function, you may enable compiler to perform context specific optimization on the body of function. Such optimizations are not possible for normal function calls. Other optimizations can be obtained by considering the flows of calling context and the called context.
+	5. Inline function may be useful (if it is small) for embedded systems because inline can yield less code than the function call permeable and return.
+	
+	Why?
+	1. The added variables from the inlined function consumes additional registers.
+	2. If you use too many inline functions then the size of the binary executable file will be large, because of the duplication of some code.
+	3. Too much inlining can also reduce your instruction cache hit rate, thus reducing the speed of instruction fetch from that of the cache memory to that of primary memory.
+	4. Inline function may increase compile time overhead if someone changes the code inside the inline function then all the calling location has to be recompiled because compiler would require to replace all the code once again to reflect changes, otherwise it will continue with old functionality.
+	5. Inline functions may not be useful for many embedded systems. Because in embedded systems code size is more important than speed.
+	6. Inline functions might cause thrashing because inlining might increase size of the binary executable file. Thrashing in memory causes performance of computer to degrade.
 
 ### [](id:OS)Operating System
 

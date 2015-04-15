@@ -11,6 +11,7 @@
 * [**Print the nodes in an n-ary tree level by level, one printed line per level.**](#NaryTree)
 * [**Given a string such as "123" or "67", write a function to output the number represented by the string without using casting.**](#StringToInt)
 * [**Convert phone numbers to words. Print all the possibilities**](#PhoneNumberWords)
+* [**Implement an online class registration system**](#ClassRegistration)
 
 
 * [](id:NumberWords)**Make a program that can print out the text form of numbers.**
@@ -227,6 +228,212 @@ public class PhoneNumberWords {
 }
 ```
 
+* [](id:ClassRegistration)**Implement an online Class Registration System**
 
+Your goal is to build an online class registration system for a local school.  
+Schools have classes and students. A class has an ID (int), a maximum capacity (int), and a time (int).  
+Students have their own IDs, as well as a maximum number of classes that they can take along with an interval time in which they can take classes.  
+Although two students may not share the same ID, a student and a class may share the same ID. Time is given as integers; they map to periods in a school schedule (so a time 1 comes before 2, which comes before 3, etc.)
+
+In terms of implementing these operations, you will be given a list of commands to process in order. You will return a list of the same size with the return values of each of the commands. Each command is guaranteed to follow one of the formats listed below.
+
+**In designing this online class registration system, we would like to implement the following operations:**
+
+**Add a class:**  
+You will be given a class ID, a capacity, and a time period ID. If there is already a class with the given ID, report that a class with that ID already exists. Otherwise, add a class and report that the class was successfully added.
+
+**Remove a class:**  
+You will be given a class ID. If there is a class with that ID, unenroll all enrolled students from that class, remove the class, and state that the removal was successful. If there is no class with that ID, report that the given class does not exist.
+
+**Print info on class:**  
+You will be given a class ID. If there is no class with that ID, report that the class does not exist. Otherwise, return a sorted list of student IDs corresponding to students enrolled in the class.
+
+**Add a student:**  
+You will be given a student ID, a capacity, and the start and end times in which he/she can take classes. The start and end times are inclusive. If there is already a student with the given ID, report an error. Otherwise, add a student and report that the student was successfully added.
+
+**Remove a student:**  
+You will be given an ID. If there is a student with that ID, unenroll that student from all of his/her enrolled classes, remove the student, and state that the removal was successful. If there is no class with that ID, report an error.
+
+**Print info on student:**  
+You will be given an ID. If there is no student with that ID, report that the student does not exist. Otherwise, return a sorted list of class IDs corresponding to the classes that the student is enrolled in.
+
+**Enroll student in class:**  
+You will be given a student ID and a class ID. Attempt to enroll the student in the class. Report an error if enrollment was not successful. Otherwise, return the number of open spots left in the class. The student can only be enrolled in the class if the following conditions are met:  
+
+* The student ID corresponds to a student.
+* The class ID corresponds to a class.
+* The student is not already enrolled in the class.
+* The student has capacity to take the given class.
+* The class has capacity for the student.
+* The time of the class is inside the interval given for the student.
+* The student is not already taking a class at the given time.
+
+**Unenroll student in class:**  
+You will be given a student ID and a class ID. Attempt to unenroll the student in the class - this can only happen if there is a student corresponding to the student ID and a class corresponding to the class ID and the student is already enrolled in the class. Report any error if the student could not be enrolled in the class. Otherwise, return the number of open spots left in the class.
+
+**Input and output messaging are given in comments in each stub below.**
+
+**Sample cases:**
+
+Keep in mind for all of these that the quotation marks are used to denote strings - neither the input nor the expected output will have quotation marks.
+
+Input:
+
+```
+commands = [
+"ADDCLASS 1 1 1",
+"ADDCLASS 1 2 2",
+"INFOCLASS 1",
+"INFOCLASS 2",
+"REMOVECLASS 1",
+"REMOVECLASS 2"
+]
+```
+
+Expected Output:
+
+```
+[
+"Successfully added class 1",
+"Error adding class 1",
+"Class 1 is empty",
+"Class 2 does not exist",
+"Successfully removed class 1",
+"Error removing class 2"
+]
+```
+
+Input:
+
+```
+commands = [
+"ADDSTUDENT 1 1 1 1",
+"ADDCLASS 1 2 2",
+"INFOSTUDENT 1",
+"INFOSTUDENT 2",
+"REMOVESTUDENT 1",
+"REMOVESTUDENT 1"
+]
+```
+
+Output:
+
+```
+[
+"Successfully added student 1",
+"Successfully added class 1",
+"Student 1 is not taking any classes",
+"Student 2 does not exist",
+"Successfully removed student 1",
+"Error removing student 1"
+]
+```
+
+Input:
+
+```
+commands = [
+"ADDSTUDENT 1 4 1 3",
+"ADDCLASS 1 1 1",
+"ADDCLASS 2 1 2",
+"ADDCLASS 3 1 3",
+"ADDCLASS 4 1 4",
+"ENROLLSTUDENT 1 1",
+"INFOSTUDENT 1",
+"ENROLLSTUDENT 1 2",
+"INFOSTUDENT 1",
+"ENROLLSTUDENT 1 3",
+"INFOSTUDENT 1",
+"ENROLLSTUDENT 1 4",
+"INFOSTUDENT 1",
+"UNENROLLSTUDENT 1 1",
+"INFOSTUDENT 1",
+"UNENROLLSTUDENT 1 2",
+"INFOSTUDENT 1",
+"UNENROLLSTUDENT 1 3",
+"INFOSTUDENT 1",
+"UNENROLLSTUDENT 1 4",
+"INFOSTUDENT 1"
+]
+```
+
+Expected Output:
+
+```
+[
+"Successfully added student 1",
+"Successfully added class 1",
+"Successfully added class 2",
+"Successfully added class 3",
+"Successfully added class 4",
+"Number of free spots left in class 1: 0",
+"Student 1 is taking the following classes: 1",
+"Number of free spots left in class 2: 0",
+"Student 1 is taking the following classes: 1,2",
+"Number of free spots left in class 3: 0",
+"Student 1 is taking the following classes: 1,2,3",
+"Enrollment of student 1 in class 4 failed",
+"Student 1 is taking the following classes: 1,2,3",
+"Number of free spots left in class 1: 1",
+"Student 1 is taking the following classes: 2,3",
+"Number of free spots left in class 2: 1",
+"Student 1 is taking the following classes: 3",
+"Number of free spots left in class 3: 1",
+"Student 1 is not taking any classes",
+"Unenrollment of student 1 in class 4 failed",
+"Student 1 is not taking any classes"
+]
+```
+
+Input:
+
+```
+commands = [
+"ADDSTUDENT 1 1 1 1",
+"ADDCLASS 1 1 1",
+"ENROLLSTUDENT 1 1",
+"INFOSTUDENT 1",
+"REMOVECLASS 1"
+"INFOSTUDENT 1",
+"ADDCLASS 1 1 1",
+"ENROLLSTUDENT 1 1",
+"INFOCLASS 1",
+"REMOVESTUDENT 1",
+"INFOCLASS 1"
+]
+```
+
+Expected Output:
+
+```
+[
+"Successfully added student 1",
+"Successfully added class 1",
+"Number of free spots left in class 1: 0",
+"Student 1 is taking the following classes: 1",
+"Successfully removed class 1",
+"Student 1 is not taking any classes",
+"Successfully added class 1",
+"Number of free spots left in class 1: 0",
+"Class 1 has the following students: 1",
+"Successfully removed student 1",
+"Class 1 is empty"
+]
+```
+
+
+**My Solution:**
+
+```
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+}
+```
 
 

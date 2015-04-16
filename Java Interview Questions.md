@@ -31,45 +31,44 @@ The final keyword can be assigned to
 	3. class
 	4. Objects  
 
-If a final is assigned to a variable, the variable behaves likes a constant. It means that the value of variable once set cannot be changed.
+	If a final is assigned to a variable, the variable behaves likes a constant. It means that the value of variable once set cannot be changed.
 
-```
+	```
 final int i = 1;
 i = 5; // error
-```
+	```
 
-If a final is assigned to a method, then it cannot be overridden in its child class.
+	If a final is assigned to a method, then it cannot be overridden in its child class.
 
-```
+	```
 class Parent {
 	final void print() {
 		System.out.println("Inside");
 	}
 }
-
 class Child extends Parent {
 	public final void print() {
 		// error cannot override final method
 		System.out.println("Inside");
 	}
 }
-```
+	```
 
-If a class is made final, then no other class can extend it and make it as parent class. E.g. String Class.
+	If a class is made final, then no other class can extend it and make it as parent class. E.g. String Class.
 
-Final objects are instantiated only once.
+	Final objects are instantiated only once.
 
-```
+	```
 final Map map = new HashMap();
 map.put("key", "value");
 map = new HashMap(); // error
-```
+	```
 
 
 * **What is the use of synchronized keyword?**  
 This keyword is used to prevent concurrency. Synchronized keyword can be applied to static/non-static methods or a block of code. Only one thread at a time can access synchronized methods and if there are multiple threads trying to access the same method then other threads have to wait for the execution of method by one thread. Synchronized keyword provides a lock on the object and thus prevents race condition.
 
-```
+	```
 public void synchronized method() {
 	public void synchronized staticmethod() {}
 	public void myMethod() {
@@ -77,7 +76,7 @@ public void synchronized method() {
 		}
 	}
 }
-```
+	```
 
 
 * **What is volatile keyword?**  
@@ -100,21 +99,20 @@ Static keyword can be used with the variables and methods but not with the class
 	```
 public class Counter {
 	private static int count = 0;
-	private int nonStaticCount = 0;
-	
+	private int nonStaticCount = 0;  
 	public void incrementCounter() {
 		count++;
 		nonStaticCount++;
 	}
-	
+
 	public int getCount() {
 		return count;
 	}
-	
+
 	public int getNonStaticCount() {
 		return nonStaticCount;
 	}
-	
+
 	public static void main(String[] args) {
 		Counter countObj1 = new Counter();
 		Counter countObj2 = new Counter();
@@ -132,7 +130,7 @@ Static count for Obj2: 2
 NonStatic count for Obj2: 1	
 	```
 	
-	In the above program, obj1 and obj2 share the same instance of static variable count hence if the value is incremented by one object, the incremented value will be reflected across the other objects.
+		In the above program, obj1 and obj2 share the same instance of static variable count hence if the value is incremented by one object, the incremented value will be reflected across the other objects.
 	
 
 * **What is a static method?**  
@@ -146,11 +144,10 @@ public class Test {
 		System.out.println("Hello World");
 	}
 }
-public class MainClass {
+	public class MainClass {
 	public static void main(String[] args) {
 		Test.printMe();
-	}
-}
+	}	}
 	```
 	
 	```

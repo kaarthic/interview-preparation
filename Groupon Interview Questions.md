@@ -438,6 +438,57 @@ public class RemoveDuplicatesInArray {
 
 * **Split input string with a given delimiter.**
 
+```
+public class SplitStringDelimiter {
+	public static String[] split(String str, String delimiter) {
+		String[] strArray;
+		int occurrences = 0;
+		int strIndex = 0;
+		int delimiterIndex = 0;
+		int strArrayIndex = 0;
+		
+		if (str == null) {
+			throw new IllegalArgumentException("Input string cannot be null.");
+		}
+		
+		if (str.startsWith(delimiter)) {
+			str = str.substring(delimiter.length());
+		}
+		
+		if (!str.endsWith(delimiter)) {
+			str += delimiter;
+		}
+		
+		while ((delimiterIndex = str.indexOf(delimiter, strIndex)) != -1) {
+			occurrences++;
+			strIndex = delimiterIndex + delimiter.length();
+		}
+		
+		strArray = new String[occurrences];
+		strIndex = 0;
+		delimiterIndex = 0;
+		
+		while ((delimiterIndex = str.indexOf(delimiter, strIndex)) != -1) {
+			strArray[strArrayIndex] = str.substring(strIndex, delimiterIndex);
+			strIndex = delimiterIndex + delimiter.length();
+			strArrayIndex++;
+		}
+		
+		return strArray;
+	}
+
+	public static void main(String[] args) {
+		String strTestString2 = "The /quic/k brown fo/x jumps ov/er /the lazy/ dog.";
+		String[] arrString2 = split(strTestString2,"/");
+
+		for (int i=0; i< arrString2.length; i++) {
+			System.out.println("array element " + i + ": " + arrString2[i]);
+		}
+	}
+}
+```
+
+
 * **Determine the second frequent number in an input array.**
 
 * **Reverse a Linked List object.**
@@ -490,6 +541,40 @@ public class CheckBST {
 
 * **Print all combinations of balanced parentheses.**
 
+```
+public class CombinationParentheses {
+	public static char[] parentheses;
+	
+	public static void printParentheses(int n) {
+		if (n > 0) {
+			parentheses = new char[n * 2];
+			printParentheses(0, n, 0, 0);
+		}
+	}
+	
+	public static void printParentheses(int index, int n, int open, int close) {
+		if (close == n) {
+			System.out.println(String.valueOf(parentheses));
+		} else {
+			if (open > close) {
+				parentheses[index] = '}';
+				printParentheses(index + 1, n, open, close + 1);
+			}
+			
+			if (open < n) {
+				parentheses[index] = '{';
+				printParentheses(index + 1, n, open + 1, close);
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		printParentheses(6);
+	}
+}
+```
+
+
 * **Run length encoding.**
 
 * **The most efficient algorithm to determine the closest deal to n customers if there are m deals.**
@@ -512,9 +597,166 @@ public class CheckBST {
 	| Performance | Fast | Very slow | Fast |
 
 
-* **Code Dijkstra's algorithm and avl rotation.**
+* **Code Dijkstra's algorithm.**
+
+```
+class Vertex implements Comparable<Vertex> {
+	public final String name;
+	public Edge[] adjacencies;
+	public double minDistance = Double.POSITIVE_INFINITY;
+	public Vertex previous;
+	
+	public Vertex(String name) {
+		this.name = name;
+	}
+	
+	public int compareTo(Vertex other) {
+		return Double.compare(minDistance, other.minDistance);
+	}
+}
+
+class Edge {
+	public final Vertex target;
+	public final double weight;
+	
+	public Edge(Vertex target, double weight) {
+		this.target = target;
+		this.weight = weight;
+	}
+}
+
+public class Dijkstra {
+	public static void computePaths(Vertex source) {
+		source.minDistance = 0;
+		PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
+		vertexQueue.add(source);
+		
+		while (!vertexQueue.isEmpty()) {
+			Vertex u = vertexQueue.poll();
+			
+			for (Edge e : u.adjacencies) {
+				Vertex v = e.target;
+				double distance = u.minDistance + e.weight;
+				
+				if (distance < v.minDistance) {
+					vertexQueue.remove(v);
+					v.minDistance = distance;
+					v.previous = u;
+					vertexQueue.add(v);
+				}
+			}
+		}
+	}
+
+	public static List<Vertex> getShortestPathTo(Vertex target) {
+		List<Vertex> path = new ArrayList<Vertex>();
+		
+		for (Vertex vertex = target; vertex != null; vertex = vertex.previous) {
+			path.add(vertex);
+		}
+		
+		Collections.reverse(path);
+		return path;
+	}
+
+	public static void main(String[] args) {
+		Vertex v0 = new Vertex("A");
+		Vertex v1 = new Vertex("B");
+		Vertex v2 = new Vertex("C");
+		Vertex v3 = new Vertex("D");
+		Vertex v4 = new Vertex("E");
+
+		v0.adjacencies = new Edge[]{ new Edge(v1, 5), new Edge(v2, 10), new Edge(v3, 8) };
+		v1.adjacencies = new Edge[]{ new Edge(v0, 5), new Edge(v2, 3), new Edge(v4, 7) };
+		v2.adjacencies = new Edge[]{ new Edge(v0, 10), new Edge(v1, 3) };
+		v3.adjacencies = new Edge[]{ new Edge(v0, 8), new Edge(v4, 2) };
+		v4.adjacencies = new Edge[]{ new Edge(v1, 7), new Edge(v3, 2) };
+		
+		Vertex[] vertices = { v0, v1, v2, v3, v4 };
+		computePaths(v0);
+		
+		for (Vertex v : vertices) {
+			System.out.println("Distance to " + v.name + ": " + v.minDistance);
+			List<Vertex> path = getShortestPathTo(v);
+			System.out.println("Path: " + path);
+		}
+	}
+}
+```
+
+* **AVL Rotation.**
 
 * **You need to create a queue, but you're not allowed to use stacks. How would you do it?**
+
+```
+public class QueueLinkedList<Item> {
+	private Node head, tail;
+	private int size;
+	
+	private class Node {
+		Item item;
+		Node next;
+	}
+	
+	public QueueLinkedList() {
+		head = null;
+		tail = null;
+		size = 0;
+	}
+	
+	public boolean isEmpty() {
+		return size == 0;
+	}
+	
+	public int size() {
+		return size;
+	}
+	
+	public Item peek() {
+		return head.item;
+	}
+	
+	public void add(Item item) {
+		Node oldTail = tail;
+		tail = new Node();
+		tail.item = item;
+		tail.next = null;
+		
+		if (isEmpty()) {
+			head = tail;
+		} else {
+			oldTail.next = tail;
+		}
+		
+		size++;
+	}
+	
+	public Item poll() {
+		if (isEmpty()) {
+			return null;
+		}
+		
+		return delete();
+	}
+	
+	public Item remove() {
+		return delete();
+	}
+	
+	private Item delete() {
+		Item item = head.item;
+		head = head.next;
+		size--;
+		
+		if (isEmpty()) {
+			tail = null;
+		}
+		
+		return item;
+	}
+}
+```
+
 
 * **When designing an API between front-end/UI code and backend servers, what technologies would you choose and more importantly, why would you choose one over the other?**
 

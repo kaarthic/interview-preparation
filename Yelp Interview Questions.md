@@ -367,6 +367,42 @@ public class Trie {
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 6  
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 1  
 	Sample answer: Dot Product = 4 * 7 + 3 * 1 = 31 (only print 31)**
+	
+```
+public class DotProduct {
+	public static void dotProduct(int length) {
+		Scanner in = new Scanner(System.in);
+		
+		Map<Integer, Integer> vector = new HashMap<Integer, Integer>();
+		
+		int dotProduct = 0;
+		
+		for (int i = 0; i < length; i++) {
+			String line = in.nextLine();
+			String[] split = line.split("\\s+");
+			int key = Integer.parseInt(split[0]);
+			int value = Integer.parseInt(split[1]);
+			
+			if (vector.get(key) != null)
+				dotProduct += (vector.get(key) * value);
+			else
+				vector.put(key, value);
+		}
+		
+		System.out.println(dotProduct);
+	}
+	
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		String N = in.nextLine();
+		String[] kn = N.split("\\s+");
+		int k = Integer.parseInt(kn[0]);
+		int n = Integer.parseInt(kn[1]);
+		
+		dotProduct(k + n);
+	}
+}
+```
 
 * **Given a company name and rank number, sort the companies by their number.**
 
@@ -376,11 +412,113 @@ public class Trie {
 
 * **Find a target value from a 2d array in which each row and column are sorted.**
 
+```
+public class TargetValue2DMatrix {
+	public static int search(int[][] matrix, int x) {
+		int n = matrix.length;
+		int i = 0;
+		int j = n - 1;
+		
+		while (i < n && j >= 0) {
+			if (matrix[i][j] == x) {
+				return matrix[i][j];
+			}
+			
+			if (matrix[i][j] > x) {
+				j--;
+			} else {
+				i++;
+			}
+		}
+		
+		return -1;
+	}
+	
+	public static void main(String[] args) {
+		int[][] matrix = {	{10, 20, 30, 40},
+							{15, 25, 35, 45},
+							{27, 29, 37, 48},
+							{32, 33, 39, 50},
+						};
+		
+		System.out.println(search(matrix, 29));
+	}
+}
+```
+
+
 * **Implement a cache (had growing requirements, such as a limit on how many things could be stored in it, and should return the most recently placed record).**
 
 * **How to check if a bunch of braces are balanced and how to make the check faster.**
 
+```
+public class CheckBalancedParentheses {
+	private static final char LEFT_PARENTHESES = '(';
+	private static final char RIGHT_PARENTHESES = ')';
+	private static final char LEFT_BRACES = '{';
+	private static final char RIGHT_BRACES = '}';
+	private static final char LEFT_BRACKETS = '[';
+	private static final char RIGHT_BRACKETS = ']';
+	
+	public static boolean isMatchingPair(char c1, char c2) {
+		if (c1 == LEFT_PARENTHESES && c2 == RIGHT_PARENTHESES)
+			return true;
+		else if (c1 == LEFT_BRACES && c2 == RIGHT_BRACES)
+			return true;
+		else if (c1 == LEFT_BRACKETS && c2 == RIGHT_BRACKETS)
+			return true;
+		else
+			return false;
+	}
+	
+	public static boolean isBalanced(String s) {
+		Stack<Character> stack = new Stack<Character>();
+		
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == LEFT_PARENTHESES || s.charAt(i) == LEFT_BRACES || s.charAt(i) == LEFT_BRACKETS)
+				stack.push(s.charAt(i));
+			else if (s.charAt(i) == RIGHT_PARENTHESES || s.charAt(i) == RIGHT_BRACES || s.charAt(i) == RIGHT_BRACKETS) {
+				if (stack.isEmpty())
+					return false;
+				else if (!isMatchingPair(stack.pop(), s.charAt(i)))
+					return false;
+			}
+		}
+		
+		return stack.isEmpty();
+	}
+	
+	public static void main(String[] args) {
+		String s = "{}[()]{(())}";
+		System.out.println(isBalanced(s));
+	}
+}
+```
+
+
 * **Check if a string is a palindrome. Print true or false.**
+
+```
+public class CheckStringPalindrome {
+	public static boolean isPalindrome(String s) {
+		String str = s.replaceAll("([^a-zA-Z]|\\s)+", "").toLowerCase();
+		
+		int n = str.length();
+		
+		for (int i = 0; i < n / 2; i++) {
+			if (str.charAt(i) != str.charAt(n - i - 1))
+				return false;
+		}
+		
+		return true;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(isPalindrome("No, it can assess an action."));
+	}
+}
+```
+
 
 * **Implement a function to take a collection of SET cards and identify a set if it exists or return a error status or something similar if it does not. This is according to the rules of the game “SET” which you should look up for context.**
 
@@ -398,7 +536,122 @@ public class Trie {
 
 * **Print Pascal Triangle for a number.**
 
+```
+public class PascalTriangle {
+	// O(n^3) time
+	public static void pascalTriangle(int n) {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j <= i; j++) {
+				System.out.print(binomialCoefficient(i, j) + " ");
+			}
+			
+			System.out.println();
+		}
+	}
+	
+	public static int binomialCoefficient(int n, int k) {
+		int result = 1;
+		
+		if (k > n - k)
+			k = n - k;
+		
+		for (int i = 0; i < k; i++) {
+			result *= (n - i);
+			result /= (i + 1);
+		}
+		
+		return result;
+	}
+	
+	// O(n^2) time and O(n^2) space
+	public static void pascalTriangleBetter(int n) {
+		int[][] array = new int[n][n];
+		
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j <= i; j++) {
+				if (i == j || j == 0)
+					array[i][j] = 1;
+				else
+					array[i][j] = array[i - 1][j - 1] + array[i - 1][j];
+				
+				System.out.print(array[i][j] + " ");
+			}
+			
+			System.out.println();
+		}
+	}
+	
+	// O(n^2) time and O(1) space
+	public static void pascalTriangleBest(int n) {
+		for (int i = 1; i <= n; i++) {
+			int c = 1;
+			
+			for (int j = 1; j <= i; j++) {
+				System.out.print(c + " ");
+				c = c * (i - j) / j;
+			}
+			
+			System.out.println();
+		}
+	}
+	
+	public static void main(String[] args) {
+		int n = 7;
+		pascalTriangle(n);
+		pascalTriangleBetter(n);
+		pascalTriangleBest(n);
+	}
+}
+```
+
+
 * **Given a string, find the longest string with unique characters.**
+
+```
+public class LongestUniqueSubstring {
+	public static int longestUniqueSubstring(String str) {
+		int NUM_OF_CHARACTERS = 256;
+		int n = str.length();
+		int currentLength = 1;
+		int maxLength = 1;
+		int previousIndex = 0;
+		int[] visited = new int[NUM_OF_CHARACTERS];
+		
+		for (int i = 0; i < NUM_OF_CHARACTERS; i++)
+			visited[i] = -1;
+		
+		visited[str.charAt(0)] = 0;
+		
+		for (int i = 1; i < n; i++) {
+			previousIndex = visited[str.charAt(i)];
+			
+			System.out.println(previousIndex);
+			
+			if (previousIndex == -1 || i - currentLength > previousIndex) {
+				currentLength++;
+			} else {
+				if (currentLength > maxLength)
+					maxLength = currentLength;
+				
+				currentLength = i - previousIndex;
+			}
+			
+			visited[str.charAt(i)] = i;
+		}
+		
+		if (currentLength > maxLength)
+			maxLength = currentLength;
+		
+		return maxLength;
+	}
+	
+	public static void main(String[] args) {
+		String str = "GEEKSFORGEEKS";
+		System.out.println(longestUniqueSubstring(str));
+	}
+}
+```
+
 
 * **Give a list of urls, find the top 10 most visited urls.**
 
@@ -406,7 +659,77 @@ public class Trie {
 
 * **Find the sum of two integers represented as strings, return the sum as string, i.e “123” and “456” would return “579”.**
 
+```
+public class SumOfStringInt {
+	public static String add(String one, String two) {
+		StringBuffer addition = new StringBuffer();
+		int carry = 0;
+		int lengthOne = one.length();
+		int lengthTwo = two.length();
+		int limit = (lengthOne >= lengthTwo) ? lengthOne : lengthTwo;
+		
+		for (int i = 0; i < limit; i++) {
+			int firstInt = 0;
+			int secondInt = 0;
+			
+			if (i < lengthOne)
+				firstInt = (int) one.charAt(lengthOne - 1 - i) - '0';
+			
+			if (i < lengthTwo)
+				secondInt = (int) two.charAt(lengthTwo - 1 - i) - '0';
+			
+			int sum = firstInt + secondInt + carry;
+			carry = sum / 10;
+			int value = sum % 10;
+			
+			addition.insert(0, value);
+		}
+		
+		return addition.toString();
+	}
+	
+	public static void main(String[] args) {
+		String one = "12345678910";
+		String two = "456";
+		System.out.println(add(one, two));
+	}
+}
+```
+
+
 * **Find prime factors of a number.**
+
+```
+public class PrimeFactorsOfNumber {
+	public static ArrayList<Integer> primeFactors(int n) {
+		ArrayList<Integer> primeFactors = new ArrayList<Integer>();
+		
+		while (n % 2 == 0) {
+			primeFactors.add(2);
+			n = n / 2;
+		}
+		
+		for (int i = 3; i <= Math.sqrt(n); i = i + 2) {
+			while (n % i == 0) {
+				primeFactors.add(i);
+				n = n / i;
+			}
+		}
+		
+		if (n > 2)
+			primeFactors.add(n);
+		
+		return primeFactors;
+	}
+	
+	public static void main(String[] args) {
+		int n = 315;
+		ArrayList<Integer> primeFactors = primeFactors(n);
+		System.out.println(primeFactors);
+	}
+}
+```
+
 
 * **How to find the only different number in two unsorted arrays?**
 
@@ -418,7 +741,7 @@ public class Trie {
 
 * **Given a number of nodes and a number of edges, write a method to generate a random graph.**
 
-* **Longest Palindrome substring on leetcode.**
+* **Longest Palindrome substring.**
 
 * **Split shifted linked list into two sorted lists.**
 
@@ -446,11 +769,119 @@ public class Trie {
 
 * **Generate all permutations of an alphanumeric string.**
 
+```
+public class PermutationsOfString {
+	public static void permute(char[] input, int index, int n) {
+		if (index == n) {
+			System.out.println(input);
+			return;
+		} else {
+			for (int i = index; i < n; i++) {
+				swap(input, index, i);
+				permute(input, index + 1, n);
+				swap(input, index, i);
+			}
+		}
+	}
+	
+	public static void swap(char[] array, int i, int j) {
+		char temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+	
+	public static void main(String[] args) {
+		String s = "ABC";
+		char[] input = s.toCharArray();
+		int n = input.length;
+		permute(input, 0, n);
+	}
+}
+```
+
+
 * **Get the least common ancestor of a binary tree.**
 
 * **How to merge two arrays?**
 
+```
+public class MergeTwoArray {
+	public static void moveToEnd(Integer[] a, int size) {
+		int j = size - 1;
+		
+		for (int i = size - 1; i >= 0; i--) {
+			if (a[i] != null) {
+				a[j] = a[i];
+				j--;
+			}
+		}
+	}
+	
+	public static void merge(Integer[] a, Integer[] b, int m, int n) {
+		int i = n;
+		int j = 0;
+		int k = 0;
+		
+		while (k < (m + n)) {
+			if ((i < (m + n) && a[i] <= b[j]) || (j == n)) {
+				a[k] = a[i];
+				k++;
+				i++;
+			} else {
+				a[k] = b[j];
+				k++;
+				j++;
+			}
+		}
+	}
+	
+	public static void printArray(Integer[] a, int size) {
+		for (int i = 0; i < size; i++)
+			System.out.print(a[i] + " ");
+		
+		System.out.println();
+	}
+	
+	public static void main(String[] args) {
+		Integer[] a = {2, 8, null, null, null, 13, null, 15, 20};
+		Integer[] b = {5, 7, 9, 25};
+		int n = b.length;
+		int m = a.length - n;
+		
+		moveToEnd(a, m + n);
+		merge(a, b, m, n);
+		printArray(a, m + n);
+	}
+}
+```
+
+* **From a given integer array values, find if a total value is possible or not? The numbers in the array can be used more than once.**
+
+	```
+	Example:
+	int[] points = {3, 7};
+	isScorePossible(points, 10) // true
+	isScorePossible(points, 9) // true
+	```
+
 * **How to determine if an Array of integers contains 3 numbers that sum to 0?**
+
+* **Write code to generate all possible combinations of a given lower-cased string.**
+
+	```
+	"0ab" -> ["0ab", "0aB", "0Ab", "0AB"]
+	```
+	
+* **Assume this kind of data below is given as input and loaded into your choice of Data Structure. Using Category name return the number of restaurant type. Example: if input is Potato Chips, output should be : 2 (American and Italian).**
+
+* **An enumerator is a class with getNextObject method. It encapsulates the container. Write an enumerator. Next, write a new enumerator called chained-enumerator which is initialized by two other enumerators. Finally how would you make it work with N enumerators.**
+
+* **Write a function to search for a specific DOM element, and return all instances of that element and its child nodes. How many times does each element get searched?**
+
+* **Given a list of numbers, write a function that combines those numbers in arithmetic expression to obtain the value T. The allowed operations are +, -, *, and /. Parentheses are also allowed.**
+
+* **Given a list of n words, Print the most frequent 10.**
+
 
 ### [](id:FrontEnd)Front End
 

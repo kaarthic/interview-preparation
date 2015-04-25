@@ -31,6 +31,86 @@ public class LinkedListLoop {
 
 * **How to find all permutations of an array?**
 
+```
+public class ArrayPermutations {
+	public static ArrayList<ArrayList<Integer>> getPermutations(int[] num) {
+		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+		
+		result.add(new ArrayList<Integer>());
+		
+		for (int i = 0; i < num.length; i++) {
+			ArrayList<ArrayList<Integer>> current = new ArrayList<ArrayList<Integer>>();
+			
+			for (ArrayList<Integer> list : result) {
+				for (int j = 0; j < list.size() + 1; j++) {					
+					ArrayList<Integer> temp = new ArrayList<Integer>(list);
+					temp.add(j, num[i]);
+					current.add(temp);
+				}
+			}
+			
+			result  = current;
+		}
+		
+		return result;
+	}
+	
+	public static ArrayList<ArrayList<Integer>> permute(int[] num) {
+		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+		permute(num, 0, result);
+		return result;
+	}
+	
+	public static void permute(int[] num, int start, ArrayList<ArrayList<Integer>> result) {
+		if (start >= num.length) {
+			ArrayList<Integer> item = convertArrayToList(num);
+			result.add(item);
+		}
+		
+		for (int i = start; i <= num.length - 1; i++) {
+			swap(num, start, i);
+			permute(num, start + 1, result);
+			swap(num, start, i);
+		}
+	}
+	
+	private static ArrayList<Integer> convertArrayToList(int[] num) {
+		ArrayList<Integer> item = new ArrayList<Integer>();
+		
+		for (int i = 0; i < num.length; i++) {
+			item.add(num[i]);
+		}
+		
+		return item;
+	}
+	
+	private static void swap(int[] a, int i, int j) {
+		int temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+	
+	private static int permutation(int n) {
+		int result = 1;
+		
+		for (int i = 1; i <= n; i++)
+			result *= i;
+		
+		return result;
+	}
+	
+	public static void main(String[] args) {
+		int[] array = {1, 2, 3};
+		int permutation = permutation(array.length);
+		System.out.println(permutation);
+		System.out.println(permutation == getPermutations(array).size());
+		System.out.println(getPermutations(array));
+		System.out.println(permute(array));
+	}
+}
+```
+
+
 * **Given two eggs and a 100 floored building, how can you try lowest amount of time to decide the highest floor it will break?**
 
 * **Reimplement a hash class with arrays.**
@@ -394,11 +474,131 @@ public class RemoveWhiteSpace {
 
 * **Puzzle on 25 horses.**
 
+	Done
+
+
 * **Design a system on a mobile device where it would return all local merchants shop location based on your location and the radius.**
 
 * **2Sum problem. You have an unsorted array, and you are given a value S. Find all pairs of elements in the array that add up to value S.**
 
+```
+public class TwoSumProblem {
+	public static ArrayList<ArrayList<Integer>> twoSumInefficient(int[] num, int sum) {
+		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+		
+		for (int i = 0; i < num.length; i++) {
+			for (int j = i; j < num.length; j++) {
+				if (num[i] + num[j] == sum) {
+					ArrayList<Integer> temp = new ArrayList<Integer>();
+					temp.add(num[i]);
+					temp.add(num[j]);
+					result.add(temp);
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public static ArrayList<ArrayList<Integer>> twoSumBetter(int[] num, int sum) {
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+		
+		for (int i = 0; i < num.length; i++) {
+			map.put(sum - num[i], i);
+			
+			if (map.containsKey(num[i])) {
+				ArrayList<Integer> temp = new ArrayList<Integer>();
+				temp.add(num[i]);
+				temp.add(sum - num[i]);
+				result.add(temp);
+			}
+		}
+		
+		return result;
+	}
+	
+	public static ArrayList<ArrayList<Integer>> twoSumEfficient(int[] num, int sum) {
+		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+		Arrays.sort(num);
+		
+		int first = 0;
+		int last = num.length - 1;
+		
+		while (first <= last) {
+			int s = num[first] + num[last];
+			
+			if (s == sum) {
+				ArrayList<Integer> temp = new ArrayList<Integer>();
+				temp.add(num[first]);
+				temp.add(num[last]);
+				result.add(temp);
+				
+				++first;
+				--last;
+			} else {
+				if (s < sum) {
+					++first;
+				} else {
+					--last;
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public static void main(String[] args) {
+		int[] num = {9, 3, 6, 5, 7, -1, 13, 14, -2, 12, 0};
+		ArrayList<ArrayList<Integer>> result = twoSumInefficient(num, 12);
+		ArrayList<ArrayList<Integer>> result2 = twoSumBetter(num, 12);
+		ArrayList<ArrayList<Integer>> result3 = twoSumEfficient(num, 12);
+		
+		System.out.println(result.toString());
+		System.out.println(result2.toString());
+		System.out.println(result3.toString());
+	}
+}
+```
+
+
 * **Maximum sub-array given an integer array.**
+
+```
+public class maxSubArray {
+	public static int maxSubArray(int[] a) {
+		int newSum = a[0];
+		int max = a[0];
+		
+		for (int i = 1; i < a.length; i++) {
+			newSum = Math.max(newSum + a[i], a[i]);
+			max = Math.max(max, newSum);
+		}
+		
+		return max;
+	}
+	
+	public static int maxSubArrayDP(int[] a) {
+		int max = a[0];
+		int[] sum = new int[a.length];
+		sum[0] = a[0];
+		
+		for (int i = 1; i < a.length; i++) {
+			sum[i] = Math.max(a[i], sum[i - 1] + a[i]);
+			max = Math.max(max, sum[i]);
+		}
+		
+		return max;
+	}
+	
+	public static void main(String[] args) {
+		int[] array = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+		System.out.println(maxSubArrayDP(array));
+		System.out.println(maxSubArray(array));
+	}
+}
+```
+
 
 * **Remove duplicates in an integer array.**
 
@@ -761,6 +961,202 @@ public class QueueLinkedList<Item> {
 * **When designing an API between front-end/UI code and backend servers, what technologies would you choose and more importantly, why would you choose one over the other?**
 
 * **Find the number of substrings which are palindrome.**
+
+* **Given that integers are read from a data stream. Find median of elements read so far in efficient way.**
+
+```
+public class MedianStreamIntegers {
+	public Queue<Integer> minHeap;
+	public Queue<Integer> maxHeap;
+	public int numberOfElements;
+	
+	public MedianStreamIntegers() {
+		minHeap = new PriorityQueue<Integer>();
+		maxHeap = new PriorityQueue<Integer>(10, new MaxHeapComparator());
+		numberOfElements = 0;
+	}
+	
+	public void insert(Integer num) {
+		maxHeap.add(num);
+		
+		if (numberOfElements % 2 == 0) {
+			if (minHeap.isEmpty()) {
+				numberOfElements++;
+				return;
+			} else if (maxHeap.peek() > minHeap.peek()) {
+				Integer maxHeapRoot = maxHeap.poll();
+				Integer minHeapRoot = minHeap.poll();
+				maxHeap.add(minHeapRoot);
+				minHeap.add(maxHeapRoot);
+			}
+		} else {
+			minHeap.add(maxHeap.poll());
+		}
+		
+		numberOfElements++;
+	}
+	
+	public Double getMedian() {
+		if (numberOfElements % 2 != 0) {
+			return new Double(maxHeap.peek());
+		} else {
+			return (maxHeap.peek() + minHeap.peek()) / 2.0;
+		}
+	}
+	
+	private class MaxHeapComparator implements Comparator<Integer> {
+		public int compare(Integer o1, Integer o2) {
+			return o2 - o1;
+		}
+	}
+	
+	public static void main(String[] args) {
+		MedianStreamIntegers streamMedian = new MedianStreamIntegers();
+		
+		streamMedian.insert(1);
+		System.out.println(streamMedian.getMedian());
+		
+		streamMedian.insert(5);
+		streamMedian.insert(10);
+		streamMedian.insert(12);
+		streamMedian.insert(2);
+		System.out.println(streamMedian.getMedian());
+		
+		streamMedian.insert(3);
+		streamMedian.insert(8);
+		streamMedian.insert(9);
+		System.out.println(streamMedian.getMedian());
+	}
+}
+```
+
+* **Design an algorithm for a thermometer that shows the maximum and minimum temperature in the last 24 hours. The current temperature can be read in 5 seconds interval.**
+
+* **Given R number of Red Cards, B number of Black Cards, K. Cards need to be placed in a circle. Start from a position and for every K moves remove that card and repeat the process until all the cards are eliminated. Question : Position the cards such that the red cards are completely eliminated before the black cards are selected for elimination.**
+
+* **You are given a matrix. Starting from [0, 0], you have to move over the matrix in clockwise-spiral direction, i.e. we start from [0, 0], move up to [0, 4], and then move to [3, 4], then move to [3, 0], then move to [1, 0], then to [1, 3] and so on.  
+Move this way and print all the elements.**
+
+	```
+	Input:
+	1 2 3 4 5
+	6 8 9 a b
+	c d e f g
+	h i j k l
+	Output:
+	1 2 3 4 5 b g l k j i h c 6 8 9 a f e d
+	```
+	
+* **Design the File System for an OS.**
+
+* **Search for an element in a rotated sorted array for e.g. sorted: {1, 2, 3, 4, 5, 6} rotated: {5, 6, 1, 2, 3, 4}.**
+
+* **Find the top k items out of an array where items can have values [0 ... 100].**
+
+* **Find the largest subarray with equal number of 0's and 1's.**
+
+* **Given a BST, convert it into a new Data Structure that satisfies following conditions:**
+	* **Every leaf node's left pointer points to tis parent and right pointer points to the next leaf.**
+	* **Every non leaf node's left pointer points to its parent and right pointer is NULL.**
+	* **Return the head and print the new Data Structure.**
+	
+	```
+	Example:
+	7
+	/\
+	5 9
+	/\ \
+	4 6 10
+	Output:
+	head -> 4 -> 5 -> 7
+	|
+	-> 6 -> 5 -> 7
+	|
+	-> 10 -> 9 -> 7
+	```
+	
+* **Given an array, return true if it can be partitioned into two subarrays whose sum of elements are same, else return false.**
+
+	```
+	Example:
+	Input: {5, 1, 5, 11}
+	Output: true ({5, 1, 5} and {11})
+	```
+	
+* **Find the most common "3 page path" on a website given a large data log.**
+
+* **Find pairs of numbers that add up to a given number.**
+
+* **input: "kitten%20pic.jpg"
+	ouput: "kitten pic.jpg"  
+	%20 -> ' '  
+	%3A -> '?'  
+	%3D -> ':'  
+	Modify your input in place.  
+	No String library functions**
+	
+* **Write in order traversal without using recursion.**
+
+* **Add two integers which cannot be stored even in long long ing.**  
+  
+* **Given a BST and two values a and b, write a method which returns number of nodes in this tree such that a < node value < b.**  
+  
+* **Given a String, find the longest even palindrome (length of palindrome is even) from it.  
+Example:  
+Input: abcicbbcdefggfed  
+Output: defggfed (length is 8)  
+Available palindromes are:**  
+	* **bcicb - has odd length**  
+	* **cbbc - even length**  
+	* **defggfed - longest palindrome with even length**  
+
+* **You are given a graph and an algorithm that can find the shortest path between any two nodes. Now you have to find the second shortest path between same two nodes.**
+
+* **In a grid, you are given a position, and every location has some value. Find the shortest length so that you can touch to any boundary of the grid.**
+
+* **You have a binary tree on client machine, how will you send this info to server and how will you again maintain the ree over the server.**
+
+* **You have a robot in a grid, it can move in forward direction and can change its facing towards north, south, east, and west and you are given a command sequence. So what will be the final position of the robot.  
+Example:  
+Grid(100 * 500)  
+Robot position - (5, 3)  
+Sequence - {N, S, M, M, E, W, E, S, M, S, M} North, East, West, South, Move Forward.**
+
+* **Print a binary tree in vertical order using singly linked list. Complexity should be O(n).**
+
+* **Print level order traversal of a binary tree in reverse way.**
+
+	```
+	Example:
+		1
+	   / \
+	  2   3
+	 / \ / \
+	4  5 6  7
+	Output:
+	4 5 6 7 2 3 1
+	```
+	
+* **Implement a circular queue of integers of user-specified size using a simple array. Povide routines to initialize(), enqueue(), and dequeue() the queue. Make it thread safe.**
+
+* **Implement atoi function. Define your own function signature in the language of your choice.**
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
 
 
 

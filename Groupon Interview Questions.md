@@ -110,9 +110,6 @@ public class ArrayPermutations {
 }
 ```
 
-
-* **Given two eggs and a 100 floored building, how can you try lowest amount of time to decide the highest floor it will break?**
-
 * **Reimplement a hash class with arrays.**
 
 ```
@@ -351,9 +348,6 @@ public class MedianTwoSortedArrays {
 }
 ```
 
-
-* **Write html to get pictures from web server and show them on the page.**
-
 * **How to find the middle of a Linked List.**
 
 ```
@@ -476,9 +470,6 @@ public class RemoveWhiteSpace {
 
 	Done
 
-
-* **Design a system on a mobile device where it would return all local merchants shop location based on your location and the radius.**
-
 * **2Sum problem. You have an unsorted array, and you are given a value S. Find all pairs of elements in the array that add up to value S.**
 
 ```
@@ -560,7 +551,6 @@ public class TwoSumProblem {
 	}
 }
 ```
-
 
 * **Maximum sub-array given an integer array.**
 
@@ -688,9 +678,6 @@ public class SplitStringDelimiter {
 }
 ```
 
-
-* **Determine the second frequent number in an input array.**
-
 * **Reverse a Linked List object.**
 
 ```
@@ -711,12 +698,11 @@ public class ReverseLinkedList {
 }
 ```
 
-
-* **Find all elements in a DOM with a specific attribute.**
-
 * **Given a start word, an end word, and a list of valid words, implement an algorithm to return all words from start word to end word, where each step changes only one character at a time.  
 	Example : Given "Cat", "Dog" and a list of valid words, return  
 	cat -> bat -> bet -> bot -> bog -> dog**
+	
+	Done
 	
 * **Find whether a binary tree is a binary search tree.**
 
@@ -773,19 +759,6 @@ public class CombinationParentheses {
 	}
 }
 ```
-
-
-* **Run length encoding.**
-
-* **The most efficient algorithm to determine the closest deal to n customers if there are m deals.**
-
-* **Suppose you have 4gb list of integers on disk. Find the kth largest element. (Use array)**
-
-* **String, int and map were encrypted in some rules. Decrypt a string based on those rules and return a map. Should write helper functions and keep calling them as looping through the string.**
-
-* **How to sample a number given a list of probabilities.**
-
-* **How do you serialize and deserialize a list of strings?**
 
 * **Difference between a String, StringBuilder, and StringBuffer.**
 
@@ -884,8 +857,6 @@ public class Dijkstra {
 }
 ```
 
-* **AVL Rotation.**
-
 * **You need to create a queue, but you're not allowed to use stacks. How would you do it?**
 
 ```
@@ -957,11 +928,6 @@ public class QueueLinkedList<Item> {
 }
 ```
 
-
-* **When designing an API between front-end/UI code and backend servers, what technologies would you choose and more importantly, why would you choose one over the other?**
-
-* **Find the number of substrings which are palindrome.**
-
 * **Given that integers are read from a data stream. Find median of elements read so far in efficient way.**
 
 ```
@@ -1030,10 +996,301 @@ public class MedianStreamIntegers {
 }
 ```
 
-* **Design an algorithm for a thermometer that shows the maximum and minimum temperature in the last 24 hours. The current temperature can be read in 5 seconds interval.**
+* **Search for an element in a rotated sorted array for e.g. sorted: {1, 2, 3, 4, 5, 6} rotated: {5, 6, 1, 2, 3, 4}.**
 
-* **Given R number of Red Cards, B number of Black Cards, K. Cards need to be placed in a circle. Start from a position and for every K moves remove that card and repeat the process until all the cards are eliminated. Question : Position the cards such that the red cards are completely eliminated before the black cards are selected for elimination.**
+```
+public class FindElementInRotatedArray {
+	public static int search(int[] a, int low, int high, int x) {
+		if (low > high)
+			return -1;
+		
+		int mid = (low + high) / 2;
+		
+		if (a[mid] == x)
+			return mid;
+		
+		if (a[low] <= a[mid])
+			return (x >= a[low] && x <= a[mid]) ? search(a, low, mid - 1, x) : search(a, mid + 1, high, x);
+		else
+			return (x >= a[mid] && x <= a[high]) ? search(a, mid + 1, high, x) : search(a, low, mid - 1, x);
+	}
+	
+	public static void main(String[] args) {
+		int[] a = {4, 5, 6, 7, 8, 9, 1, 2, 3};
+		System.out.println(search(a, 0, a.length - 1, 7));
+	}
+}
+```
 
+* **Find the largest subarray with equal number of 0's and 1's.**
+
+	Done
+	
+* **Given an array, return true if it can be partitioned into two subarrays whose sum of elements are same, else return false.**
+
+	```
+	Example:
+	Input: {5, 1, 5, 11}
+	Output: true ({5, 1, 5} and {11})
+	```
+	
+	Done
+	
+* **Write in order traversal without using recursion.**
+
+	Done
+
+* **Add two integers which cannot be stored even in long long ing.**  
+
+```
+public class SumOfStringInt {
+	public static String add(String one, String two) {
+		StringBuffer addition = new StringBuffer();
+		int carry = 0;
+		int lengthOne = one.length();
+		int lengthTwo = two.length();
+		int limit = (lengthOne >= lengthTwo) ? lengthOne : lengthTwo;
+		
+		for (int i = 0; i < limit; i++) {
+			int firstInt = 0;
+			int secondInt = 0;
+			
+			if (i < lengthOne)
+				firstInt = (int) one.charAt(lengthOne - 1 - i) - '0';
+			
+			if (i < lengthTwo)
+				secondInt = (int) two.charAt(lengthTwo - 1 - i) - '0';
+			
+			int sum = firstInt + secondInt + carry;
+			carry = sum / 10;
+			int value = sum % 10;
+			
+			addition.insert(0, value);
+		}
+		
+		return addition.toString();
+	}
+	
+	public static void main(String[] args) {
+		String one = "12345678910";
+		String two = "456";
+		System.out.println(add(one, two));
+	}
+}
+```
+
+* **Print a binary tree in vertical order using singly linked list. Complexity should be O(n).**
+
+```
+public class PrintBinaryTreeVerticalNotEfficient {
+	private static int min = 0;
+	private static int max = 0;
+	
+	public static void findMinMax(Node node, int minimum, int maximum, int hd) {
+		if (node == null)
+			return;
+		
+		if (hd < minimum)
+			min = hd;
+		else if (hd > maximum)
+			max = hd;
+		
+		findMinMax(node.left, min, max, hd - 1);
+		findMinMax(node.right, min, max, hd + 1);
+	}
+	
+	public static void printVertical(Node node, int line, int hd) {
+		if (node == null)
+			return;
+		
+		if (hd == line)
+			System.out.print(node.data + " ");
+		
+		printVertical(node.left, line, hd - 1);
+		printVertical(node.right, line, hd + 1);
+	}
+	
+	public static void verticalOrder(Node root) {
+		findMinMax(root, min, max, 0);
+		
+		for (int i = min; i <= max; i++) {
+			printVertical(root, i, 0);
+			System.out.println();
+		}
+	}
+}
+
+public class PrintBinaryTreeVerticalEfficient {
+	public static void getVerticalOrder(Node root, int hd, TreeSet<Integer> order, HashMap<Integer, ArrayList<Integer>> map) {
+		if (root == null)
+			return;
+		
+		order.add(hd);
+		
+		if (map.containsKey(hd)) {
+			map.get(hd).add(root.data);
+		} else {
+			ArrayList<Integer> temp = new ArrayList<Integer>();
+			temp.add(root.data);
+			map.put(hd, temp);
+		}
+		
+		getVerticalOrder(root.left, hd - 1, order, map);
+		getVerticalOrder(root.right, hd + 1, order, map);
+	}
+	
+	public static void printVertical(Node root) {
+		HashMap<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
+		TreeSet<Integer> order = new TreeSet<Integer>();
+		
+		getVerticalOrder(root, 0, order, map);
+		
+		for (int i = order.first(); i < order.first() + order.size(); i++) {
+			for (int j = 0; j < map.get(i).size(); j++) {
+				System.out.print(map.get(i).get(j) + " ");
+			}
+			
+			System.out.println();
+		}
+	}
+}
+```
+
+* **Implement atoi function. Define your own function signature in the language of your choice.**
+
+```
+public class Atoi {
+	public static int atoi(String str) {
+		int result = 0;
+		
+		for (int i = 0; i < str.length(); i++) {
+			result = result * 10 + str.charAt(i) - '0';
+		}
+		
+		return result;
+	}
+	
+	public static int atoiSecond(String str) {
+		int result = 0;
+		int sign = 1;
+		int i = 0;
+		
+		if (str.charAt(0) == '-') {
+			sign = -1;
+			i++;
+		}
+		
+		for (; i < str.length(); i++) {
+			result = result * 10 + str.charAt(i) - '0';
+		}
+		
+		return sign * result;
+	}
+	
+	private static boolean isNumeric(char x) {
+		return (x >= '0' && x <= '9') ? true : false;
+	}
+	
+	public static int atoiThird(String str) {
+		if (str == null)
+			return 0;
+		
+		int result = 0;
+		int sign = 1;
+		int i = 0;
+		
+		while (str.charAt(i) == ' ')
+			i++;
+		
+		if (str.charAt(i) == '-') {
+			sign = -1;
+			i++;
+		} else if (str.charAt(i) == '+') {
+			i++;
+		}
+		
+		for (; i < str.length(); i++) {
+			if (isNumeric(str.charAt(i)) == false)
+				return 0;
+			
+			result = result * 10 + str.charAt(i) - '0';
+		}
+		
+		return sign * result;
+	}
+	
+	public static void main(String args[]) {
+		String str = "89789";
+		String str2 = "-12345";
+		
+		System.out.println(atoi(str));
+		System.out.println(atoiSecond(str2));
+		System.out.println(atoiThird(str2));
+	}
+}
+```
+
+* **Print level order traversal of a binary tree in reverse way.**
+
+	```
+	Example:
+		1
+	   / \
+	  2   3
+	 / \ / \
+	4  5 6  7
+	Output:
+	4 5 6 7 2 3 1
+	```
+	
+	Done
+	
+* **Implement a circular queue of integers of user-specified size using a simple array. Povide routines to initialize(), enqueue(), and dequeue() the queue. Make it thread safe.**
+
+	Done
+
+* **Given a BST and two values a and b, write a method which returns number of nodes in this tree such that a < node value < b.**
+
+```
+public class PrintBSTWithinRange {
+	public static void printBSTWithinRange(Node root, int a, int b) {
+		if (root == null)
+			return;
+		
+		if (a < root.value)
+			printBSTWithinRange(root.left, a, b);
+		
+		if (a <= root.value && b >= root.value)
+			System.out.print(root.value + " ");
+		
+		if (b > root.value)
+			printBSTWithinRange(root.right, a, b);
+	}
+	
+	public static void main(String[] args) {
+		Node root = new Node(20);
+		root.left = new Node(8);
+		root.right = new Node(22);
+		root.left.left = new Node(4);
+		root.left.right = new Node(12);
+		
+		printBSTWithinRange(root, 10, 25);
+	}
+}
+```
+
+* **Find pairs of numbers that add up to a given number.**
+
+	Done - TwoSumProblem
+
+* **Find the number of substrings which are palindrome.**
+
+	Done - PalindromeSubstrings
+	
+* **AVL Rotation.**
+
+	Done - AVL
+	
 * **You are given a matrix. Starting from [0, 0], you have to move over the matrix in clockwise-spiral direction, i.e. we start from [0, 0], move up to [0, 4], and then move to [3, 4], then move to [3, 0], then move to [1, 0], then to [1, 3] and so on.  
 Move this way and print all the elements.**
 
@@ -1047,46 +1304,8 @@ Move this way and print all the elements.**
 	1 2 3 4 5 b g l k j i h c 6 8 9 a f e d
 	```
 	
-* **Design the File System for an OS.**
-
-* **Search for an element in a rotated sorted array for e.g. sorted: {1, 2, 3, 4, 5, 6} rotated: {5, 6, 1, 2, 3, 4}.**
-
-* **Find the top k items out of an array where items can have values [0 ... 100].**
-
-* **Find the largest subarray with equal number of 0's and 1's.**
-
-* **Given a BST, convert it into a new Data Structure that satisfies following conditions:**
-	* **Every leaf node's left pointer points to tis parent and right pointer points to the next leaf.**
-	* **Every non leaf node's left pointer points to its parent and right pointer is NULL.**
-	* **Return the head and print the new Data Structure.**
+	Done - PrintMatrixSpiral
 	
-	```
-	Example:
-	7
-	/\
-	5 9
-	/\ \
-	4 6 10
-	Output:
-	head -> 4 -> 5 -> 7
-	|
-	-> 6 -> 5 -> 7
-	|
-	-> 10 -> 9 -> 7
-	```
-	
-* **Given an array, return true if it can be partitioned into two subarrays whose sum of elements are same, else return false.**
-
-	```
-	Example:
-	Input: {5, 1, 5, 11}
-	Output: true ({5, 1, 5} and {11})
-	```
-	
-* **Find the most common "3 page path" on a website given a large data log.**
-
-* **Find pairs of numbers that add up to a given number.**
-
 * **input: "kitten%20pic.jpg"
 	ouput: "kitten pic.jpg"  
 	%20 -> ' '  
@@ -1095,11 +1314,9 @@ Move this way and print all the elements.**
 	Modify your input in place.  
 	No String library functions**
 	
-* **Write in order traversal without using recursion.**
+	Done - ReplaceInPlace
 
-* **Add two integers which cannot be stored even in long long ing.**  
-  
-* **Given a BST and two values a and b, write a method which returns number of nodes in this tree such that a < node value < b.**  
+* **Design a system on a mobile device where it would return all local merchants shop location based on your location and the radius.**
   
 * **Given a String, find the longest even palindrome (length of palindrome is even) from it.  
 Example:  
@@ -1122,44 +1339,57 @@ Grid(100 * 500)
 Robot position - (5, 3)  
 Sequence - {N, S, M, M, E, W, E, S, M, S, M} North, East, West, South, Move Forward.**
 
-* **Print a binary tree in vertical order using singly linked list. Complexity should be O(n).**
+* **Find the most common "3 page path" on a website given a large data log.**
 
-* **Print level order traversal of a binary tree in reverse way.**
-
+* **Given a BST, convert it into a new Data Structure that satisfies following conditions:**
+	* **Every leaf node's left pointer points to tis parent and right pointer points to the next leaf.**
+	* **Every non leaf node's left pointer points to its parent and right pointer is NULL.**
+	* **Return the head and print the new Data Structure.**
+	
 	```
 	Example:
-		1
-	   / \
-	  2   3
-	 / \ / \
-	4  5 6  7
+	7
+	/\
+	5 9
+	/\ \
+	4 6 10
 	Output:
-	4 5 6 7 2 3 1
+	head -> 4 -> 5 -> 7
+	|
+	-> 6 -> 5 -> 7
+	|
+	-> 10 -> 9 -> 7
 	```
+
+* **Find the top k items out of an array where items can have values [0 ... 100].**
+
+* **Design an algorithm for a thermometer that shows the maximum and minimum temperature in the last 24 hours. The current temperature can be read in 5 seconds interval.**
+
+* **Given R number of Red Cards, B number of Black Cards, K. Cards need to be placed in a circle. Start from a position and for every K moves remove that card and repeat the process until all the cards are eliminated. Question : Position the cards such that the red cards are completely eliminated before the black cards are selected for elimination.**
 	
-* **Implement a circular queue of integers of user-specified size using a simple array. Povide routines to initialize(), enqueue(), and dequeue() the queue. Make it thread safe.**
+* **Design the File System for an OS.**
 
-* **Implement atoi function. Define your own function signature in the language of your choice.**
+* **When designing an API between front-end/UI code and backend servers, what technologies would you choose and more importantly, why would you choose one over the other?**
 
+* **Run length encoding.**
 
+* **The most efficient algorithm to determine the closest deal to n customers if there are m deals.**
 
+* **Suppose you have 4gb list of integers on disk. Find the kth largest element. (Use array)**
 
+* **String, int and map were encrypted in some rules. Decrypt a string based on those rules and return a map. Should write helper functions and keep calling them as looping through the string.**
 
+* **How to sample a number given a list of probabilities.**
 
+* **How do you serialize and deserialize a list of strings?**
 
+* **Find all elements in a DOM with a specific attribute.**
 
+* **Determine the second frequent number in an input array.**
 
+* **Write html to get pictures from web server and show them on the page.**
 
-
-	
-
-
-
-
-
-
-
-
+* **Given two eggs and a 100 floored building, how can you try lowest amount of time to decide the highest floor it will break?**
 
 
 

@@ -342,10 +342,50 @@ public class Trie {
 }	
 ```
 
-
 * **Given an array of Strings and return all groups of strings that are anagrams. Continue with a huge list of words that won’t fit in memory. Example input : [“art”, rat”, “bats”, “banana”, “stab”, “tar”]; output = [[“art”, “rat”, “tar”], [“bats”, “stab”], [“banana”]].**
 
 * **Using random numbers to determine value of PI, and how to let it work in multi-computer environment.**
+
+```
+public class PiValue {
+	public static boolean isInside(double x, double y) {
+		double distance = Math.sqrt((x * x) + (y * y));
+		return distance < 1.0;
+	}
+	
+	public static double computePi(int num) {
+		Random random = new Random(System.currentTimeMillis());
+		int hits = 0;
+		double Pi = 0;
+		
+		for (int i = 1; i <= num; i++) {
+			double x = (random.nextDouble()) * 2 - 1.0;
+			double y = (random.nextDouble()) * 2 - 1.0;
+			
+			if (isInside(x, y)) {
+				hits++;
+			}
+		}
+		
+		double dthrows = num;
+		
+		Pi = (4.0 * (hits / dthrows));
+		
+		return Pi;
+	}
+	
+	public static void main(String[] args) {
+		Scanner reader = new Scanner(System.in);
+		System.out.println("This programs approximates Pi using the Monte Carlo method.");
+		System.out.println("It simulates throwing darts at a dartboard.");
+		System.out.println("Please enter number of throws: ");
+		int num = reader.nextInt();
+		double Pi = computePi(num);
+		double difference = Pi - Math.PI;
+		System.out.println("Number of throws: " + num + ", Computed Pi: " + Pi + ", Difference: " + difference);
+	}
+}
+```
 
 * **“tom” has “salad soup sandwich”, “rose” has “drink soup”. Input “salad sandwich” return “tom rose”.**
 
@@ -802,6 +842,73 @@ public class PermutationsOfString {
 
 * **Get the least common ancestor of a binary tree.**
 
+```
+public class LowestCommonAncestorBST {
+	public static Node lca(Node root, int n1, int n2) {
+		if (!find(root, n1) || !find(root, n2))
+			return null;
+		
+		while (root != null) {
+			if (root.data > n1 && root.data > n2)
+				root = root.left;
+			else if (root.data < n1 && root.data < n2)
+				root = root.right;
+			else
+				break;
+		}
+		
+		return root;
+	}
+	
+	public static Node lca2(Node root, int n1, int n2) {
+		if (find(root, n1) && find(root, n2))
+			return lca2Util(root, n1, n2);
+		
+		return null;
+	}
+	
+	public static Node lca2Util(Node root, int n1, int n2) {
+		if (root == null)
+			return null;
+		
+		if (root.data == n1 || root.data == n2)
+			return root;
+		
+		Node left = lca2Util(root.left, n1, n2);
+		Node right = lca2Util(root.right, n1, n2);
+		
+		if (left != null && right != null)
+			return root;
+		
+		return left != null ? left : right;
+	}
+	
+	public static boolean find(Node root, int x) {
+		if (root == null)
+			return false;
+		
+		if (root.data == x || find(root.left, x) || find(root.right, x))
+			return true;
+		
+		return false;
+	}
+	
+	public static void main(String[] args) {
+		Node root = new Node(20);
+		root.left = new Node(8);
+		root.right = new Node(22);
+		root.left.left = new Node(4);
+		root.left.right = new Node(12);
+		root.left.right.left = new Node(10);
+		root.left.right.right = new Node(14);
+		
+		System.out.println(lca2(root, 10, 14).data);
+		System.out.println(lca2(root, 14, 8).data);
+		System.out.println(lca2(root, 10, 22).data);
+	}
+}
+```
+
 * **How to merge two arrays?**
 
 ```
@@ -866,6 +973,8 @@ public class MergeTwoArray {
 
 * **How to determine if an Array of integers contains 3 numbers that sum to 0?**
 
+	Done - TripletSum
+
 * **Write code to generate all possible combinations of a given lower-cased string.**
 
 	```
@@ -879,6 +988,8 @@ public class MergeTwoArray {
 * **Write a function to search for a specific DOM element, and return all instances of that element and its child nodes. How many times does each element get searched?**
 
 * **Given a list of numbers, write a function that combines those numbers in arithmetic expression to obtain the value T. The allowed operations are +, -, *, and /. Parentheses are also allowed.**
+
+	Done - ExpressionConstruction
 
 * **Given a list of n words, Print the most frequent 10.**
 

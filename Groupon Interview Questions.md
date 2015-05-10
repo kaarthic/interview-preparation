@@ -1315,6 +1315,10 @@ Move this way and print all the elements.**
 	No String library functions**
 	
 	Done - ReplaceInPlace
+	
+* **Run length encoding.**
+
+	Done - RunLengthEncoding
 
 * **Design a system on a mobile device where it would return all local merchants shop location based on your location and the radius.**
   
@@ -1370,8 +1374,6 @@ Sequence - {N, S, M, M, E, W, E, S, M, S, M} North, East, West, South, Move Forw
 * **Design the File System for an OS.**
 
 * **When designing an API between front-end/UI code and backend servers, what technologies would you choose and more importantly, why would you choose one over the other?**
-
-* **Run length encoding.**
 
 * **The most efficient algorithm to determine the closest deal to n customers if there are m deals.**
 

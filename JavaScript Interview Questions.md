@@ -3,23 +3,9 @@ JavaScript Interview Questions
 
 ## <a name='toc'>Table of Contents</a>
 
-  1. [General Questions](#general)
-  1. [Open Questions](#open)
-  1. [Patterns Questions](#patterns)
-  1. [Languages Questions](#languages)
-  1. [Web Questions](#web)
-  1. [Databases Questions](#databases)
-  1. [NoSQL Questions](#nosql)
-  1. [Code Revision Questions](#coderevision)
-  1. [Concurrency Questions](#concurrency)
-  1. [Questions about Software Lifecycle and Team Management](#management)
-  1. [Questions about logic and algorithms](#algorithms)
-  1. [Questions about Software Architecture](#architecture)
-  1. [Questions about Security](#security)
-  1. [Questions based on snippets of code](#snippets)
+  1. [JavaScript Questions](#js)
 
-
-####[[↑]](#toc) <a name='general'>General Questions:</a>
+####[[↑]](#toc) <a name='js'>JavaScript Questions:</a>
 
 1. **What is JavaScript?**  
 JavaScript is a client-side scripting language that can be inserted into HTML pages and is understood by web browsers.
@@ -51,11 +37,21 @@ Negative Infinity is a number in JavaScript which can be derived by dividing neg
 Breaking within a string statement can be done by the use of a backslash, `‘\’`, at the end of the first line
 
 	Example:  
-	[crayon-54f5ab78d929a779362327/]  
+	
+	```
+document.write("This is \a program");
+	```
+	
 	And if you change to a new line when not within a string statement, then javaScript ignores break in line.
 
 	Example:  
-	[crayon-54f5ab78d92a1969348709/]  
+
+	```
+var x = 1, y = 2
+z =
+x + y;
+	```
+ 
 	The above code is perfectly fine, though not advisable as it hampers debugging.
 
 8. **Which company developed JavaScript?**  
@@ -65,7 +61,24 @@ Netscape is the software company who developed JavaScript.
 Undeclared variables are those that do not exist in a program and are not declared. If the program tries to read the value of an undeclared variable, then a runtime error is encountered. Undefined variables are those that are declared in the program but have not been given any value. If the program tries to read the value of an undefined variable, an undefined value is returned.
 
 10. **Write the code for adding new elements dynamically?**  
-[crayon-54f5ab78d92a4520410158/]
+
+	```
+<html>
+<head> <title>t1</title>
+script type="text/javascript"
+	function addNode() {
+		var newP = document.createElement("p");
+		var textNode = document.createTextNode(" This is a new text node ");
+		newP.appendChild(textNode);
+		document.getElementById("firstP").appendChild(newP);
+	}
+/script
+</head>
+<body>
+	<p id="firstP">firstP</>
+</body>
+</html>
+	```
 
 11. **What are global variables? How are these variable declared and what are the problems associated with using them?**  
 Global variables are those that are available throughout the length of the code, that is, these have no scope. The var keyword is used to declare a local variable or object. If the var keyword is omitted, a global variable is declared.
@@ -118,9 +131,13 @@ conversion used by JavaScript developers.
 It can be done in the following way:
 
 	```
-	[crayon-54f5ab78d92a8163692124/]
+document.getElementById("myText").style.fontSize = "20";
+	```
+	
 	or
-	[crayon-54f5ab78d92ab878817758/]
+	
+	```
+document.getElementById("myText").className = "anyclass";
 	```
 
 21. **Explain how to read and write a file using JavaScript?**  
@@ -138,14 +155,22 @@ Following are looping structures in Javascript:
 Variable typing is used to assign a number to a variable and the same variable can be assigned to a string.
 
 	Example:  
-	[crayon-54f5ab78d92ae864085782/]  
+
+	```
+i = 10;
+i = "string";
+	```
+
 	This is called variable typing.
 	
 24. **How can you convert the string of any base to integer in JavaScript?**  
 The `parseInt()` function is used to convert numbers between different bases. `parseInt()` takes the string to be converted as its first parameter, and the second parameter is the base of the given string.
 
 	In order to convert 4F (of base 16) to integer, the code used will be -  
-	[crayon-54f5ab78d92b0889372076/]
+
+	```
+parseInt("4F", 16);
+	```
 	
 25. **Explain the difference between `==` and `===`?**  
 `==` checks only for equality in value whereas `===` is a stricter equality test and returns false if either the value or the type of the two variables are different.
@@ -171,7 +196,7 @@ Undefined value means the:
 	
 31. **What are all the types of Pop up boxes available in JavaScript?**  
 	* Alert
-	* Confirm and
+	* Confirm
 	* Prompt
 	
 32. **What is the use of `Void(0)`?**  
@@ -179,7 +204,12 @@ Undefined value means the:
 
 33. **How can a page be forced to load another page in JavaScript?**  
 The following code has to be inserted to achieve the desired effect:  
-[crayon-54f5ab78d92b3782369419/]
+
+	```
+script langauge="JavaScript" type="text/javascript"
+	<!-- location.href="http://newhost/newpath/newfile.html"; //-->
+/script
+	```
 
 34. **What is the data type of variables of in JavaScript?**  
 All variables in the JavaScript are object data types.
@@ -191,12 +221,16 @@ An alert box displays only one button which is the OK button. But a Confirmation
 Escape characters (Backslash) is used when working with special characters like single quotes, double quotes, apostrophes and ampersands. Place backslash before the characters to make it display.
 
 	Example:  
-	[crayon-54f5ab78d92b6379292087/]
+
+	```
+document.write("I m a "good" boy);
+document.write("I m a \"good\" boy");
+	```
 	
 37. **What are JavaScript Cookies?**  
 Cookies are the small test files stored in a computer and it gets created when the user visits the websites to store information that they need. Example could be User Name details and shopping cart information from the previous visits.
 
-38. **Explain what is pop()method in JavaScript?**  
+38. **Explain what is pop() method in JavaScript?**  
 The `pop()` method is similar as the `shift()` method but the difference is that the Shift method works at the end of the array. Also the `pop()` method take the last element off of the given array and returns it. The array on which is called is then altered.
 
 39. **Whether JavaScript has concept level scope?**  
@@ -319,21 +353,17 @@ Closure is a locally declared variable related to a function which stays in memo
 
 	For example:
 
-```
+	```
 function greet(message) {
 	console.log(message);
 }
-
 function greeter(name, age) { 
 	return name + " says howdy!! He is " + age + " years old";
 }
-
 // Generate the message
 var message = greeter("James", 23);
-
 // Pass it explicitly to greet
 greet(message);
-
 // This function can be better represented by using closures
 function greeter(name, age) {
 	var message = name + " says howdy!! He is " + age + " years old";
@@ -341,13 +371,11 @@ function greeter(name, age) {
  		console.log(message);
 	};
 }
-
 // Generate the closure
 var JamesGreeter = greeter("James", 23);
-
 // Use the closure 
 JamesGreeter();
-```
+	```
 
 60. **How can a value be appended to an array?**  
 A value can be appended to an array in the given manner –
@@ -384,24 +412,20 @@ The function .call() and .apply() are very similar in their usage except a littl
 
 	The basic difference between .call() and .apply() is in the way arguments are passed to the function. Their usage can be illustrated by the given example.
 
-```
+	```
 var someObject = {
 	myProperty : 'Foo',
 	myMethod : function(prefix, postfix) {
 		alert(prefix + this.myProperty + postfix);
 	}
 };
- 
 someObject.myMethod('<', '>'); // alerts '<Foo>'
- 
 var someOtherObject  = {
 	myProperty : 'Bar'
 };
- 
 someObject.myMethod.call(someOtherObject, '<', '>'); // alerts '<Bar>'
- 
 someObject.myMethod.apply(someOtherObject, ['<', '>']); // alerts '<Bar>'
-```
+	```
 
 64. **Define event bubbling?**  
 JavaScript allows DOM elements to be nested inside each other. In such a case, if the handler of the child is clicked, the handler of parent will also work as if it were clicked too.
@@ -418,7 +442,7 @@ The ‘And’ Operator (&&), ‘Or’  Operator (||) and the ‘Not’ Operator 
 This can be done by including the name of the required frame in the hyperlink using the ‘target’ attribute.
 
 	```
-<a href=”newpage.htm” target=”newframe”>>New Page</a>
+<a href=”newpage.htm” target=”newframe”>New Page</a>
 	```
 
 68. **What is the role of break and continue statements?**  
@@ -490,9 +514,9 @@ The escape () function is responsible for coding a string so as to make the tran
 	For Example:
 
 	```
-<script>
-document.write(escape(“Hello? How are you!”));
-</script>
+script
+	document.write(escape(“Hello? How are you!”));
+/script
 	```
 
 	Output: Hello? How are you!
@@ -500,9 +524,9 @@ document.write(escape(“Hello? How are you!”));
 	The unescape() function is very important as it decodes the coded string. It works in the following way. For example:
 
 	```
-<script>
-document.write(unescape(“Hello%3F%20How%20are%20you%21”));
-</script>
+script
+	document.write(unescape(“Hello%3F%20How%20are%20you%21”));
+/script
 	```
 
 	Output: Hello? How are you!
@@ -511,11 +535,11 @@ document.write(unescape(“Hello%3F%20How%20are%20you%21”));
 EncodeURl() is used to convert URL into their hex coding. And DecodeURI() is used to convert the encoded URL back to normal.
 
 	```
-<script>
-var uri="my test.asp?name=ståle&car=saab";
-document.write(encodeURI(uri)+ "<br>");
-document.write(decodeURI(uri));
-</script>
+script
+	var uri="my test.asp?name=ståle&car=saab";
+	document.write(encodeURI(uri)+ "<br>");
+	document.write(decodeURI(uri));
+/script
 	```
 
 	Output –  

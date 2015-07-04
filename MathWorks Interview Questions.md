@@ -1,14 +1,22 @@
-<script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
-<link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/github.min.css">
-<script>
-  hljs.initHighlightingOnLoad();
-</script>
+MathWorks Interview Questions
+=============================
 
-## MathWorks Interview Questions
+## <a name='toc'>Table of Contents</a>
 
-### Math
+  1. [Math Questions](#math)
+  1. [Programming Concepts Questions](#concepts)
+  1. [Java Questions](#java)
+  1. [JavaScript Questions](#javascript)
+  1. [C++ Questions](#c++)
+  1. [C Questions](#c)
+  1. [MATLAB Questions](#matlab)
+  1. [Control Systems Questions](#controlsystems)
+  1. [Operating System Questions](#os)
+  1. [Digital Signal Processing Questions](#signalprocessing)
 
-* **What is autocorrelation?**
+####[[↑]](#toc) <a name='math'>Math Questions:</a>
+
+1. **What is autocorrelation?**
 
 * **What is PSD and what is its relationship with autocorrelation?**
 
@@ -315,10 +323,9 @@
 
 * **How do you find the gain and phase margins from a Bode plot?**
 
+####[[↑]](#toc) <a name='concepts'>Programming Concepts Questions:</a>
 
-### Programming Concepts
-
-* **Given a random array of numbers, how do you sort them? Select any sorting algorithm and write the pseudo code.**
+1. **Given a random array of numbers, how do you sort them? Select any sorting algorithm and write the pseudo code.**
 
 ```
 public class Quicksort {
@@ -568,10 +575,9 @@ public class BubbleSort {
 }
 ```
 
+####[[↑]](#toc) <a name='java'>Java Questions:</a>
 
-### Java
-
-* **Difference between path and classpath.**
+1. **Difference between path and classpath.**
 
 	| Path | Classpath |
 	|:----:|:---------:|
@@ -839,9 +845,9 @@ private static int getUnvisitedChildNode(int n) {
 
 * **Design a class structure for your department in college. What kind of methods will you have to extract specific information.**
 
-### JavaScript
+####[[↑]](#toc) <a name='javascript'>JavaScript Questions:</a>
 
-* **Difference between document.ready() and window.onload().**
+1. **Difference between document.ready() and window.onload().**
 	| document.ready() | window.onload() |
 	|:----------------:|:---------------:|
 	| Occurs after the HTMl document has been loaded | Occurs later, when all content also has been loaded |
@@ -858,6 +864,7 @@ private static int getUnvisitedChildNode(int n) {
 	REST applications use HTTP requests to post data (create, update) read data (make queries) and delete data.
 
 * **Difference between HTML and XML?**
+	
 	| HTML | XML |
 	|:----:|:---:|
 	| ML for displaying web pages in a browser | ML defines a set of rules for encoding documents that can be ready by both humans and machines |
@@ -867,9 +874,9 @@ private static int getUnvisitedChildNode(int n) {
 	| Cannot preserve white space | Preserves white space |
 	
 
-### C++
+####[[↑]](#toc) <a name='c++'>C++ Questions:</a>
 
-* **What is polymorphism?**  
+1. **What is polymorphism?**  
 	Poly - many
 	Morph - change of form  
 	Is the ability to present the same interface for differing underlaying forms (data types).
@@ -1019,9 +1026,9 @@ private static int getUnvisitedChildNode(int n) {
 * **Can you perform arithmetic operations on void pointers?**  
 	No because the compiler doesn't know the size of the item(s) the void pointer is pointing to.
 
-### C
+####[[↑]](#toc) <a name='c'>C Questions:</a>
 
-* **What is private function?**
+1. **What is private function?**
 
 * **What is hf = gca;**
 
@@ -1094,9 +1101,9 @@ private static int getUnvisitedChildNode(int n) {
 * **Write a program to reverse a string in C.**
 
 
-### Matlab
+####[[↑]](#toc) <a name='matlab'>MATLAB Questions:</a>
 
-* **Plot scattered point with given properties.**
+1. **Plot scattered point with given properties.**
 
 	```
 	x = linspace(0, 3*pi, 200);
@@ -1343,9 +1350,9 @@ line(x2,y2,'Parent',ax2,'Color','k')
 * **Where are the help documents stored in MatLab?**
 
 
-### Control Systems
+####[[↑]](#toc) <a name='controlsystems'>Control Systems Questions:</a>
 
-* **Explain lead and lag compensators.**
+1. **Explain lead and lag compensators.**
 
 * **Linearize the system.**
 
@@ -1353,9 +1360,9 @@ line(x2,y2,'Parent',ax2,'Color','k')
 
 * **Given x1 and x2 dot, find the Lyapunov equation.**
 
-### Operating System
+####[[↑]](#toc) <a name='os'>Operating System Questions:</a>
 
-* **What is RTOS?**
+1. **What is RTOS?**
 
 * **Soft vs Hard RTOS?**
 
@@ -1371,9 +1378,9 @@ line(x2,y2,'Parent',ax2,'Color','k')
 
 * **What is virtual memory?**
 
-### Digital Signal Processing
+####[[↑]](#toc) <a name='signalprocessing'>Digital Signal Processing Questions:</a>
 
-* **Difference between discrete and continuous delta function.**
+1. **Difference between discrete and continuous delta function.**
 
 * **FIR vs IIR**
 

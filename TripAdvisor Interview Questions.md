@@ -140,6 +140,12 @@ AnagramCheck
 * **Other than an array, what data structure has O(1) insertion and O(1) search?**  
 HashTable
 
+* **Check if a tree is symmetric.**  
+SymmetricTree
+
+* **Write a web crawler to count number of pages in a website.**  
+WebCrawler
+
 * **You have a fixed list of words, construct a data structure to achieve efficient O(1) time complexity prefix lookup. Write code to implement the lookup. For example, the result of looking up "app" is {apple, applications, ..}.**
 
 * **You have one billion numbers, implement getRandom() which returns a random number from them. Constraints : 1. No duplicate returning value. 2. getRandom() will at most be invoked 100 million times. Then optimize for space.**
@@ -149,8 +155,6 @@ HashTable
 * **Given a flat text file that contains a range of IP addresses that map to a location (e.g. 192.168.0.0 - 192.168.0.255 = Boston, MA), come up with an algorithm that will find a city for a specific IP address if a mapping exists.**
 
 * **Given a tree of world regions, locations, and specific destinations and attractions, find the most efficient ways to determine the common parent of two arbitrary nodes in terms of space and time.**
-
-* **Write a web crawler to count number of pages in a website.**
 
 * **How can you tell efficiently how many consecutive zero's are in a number without looping through its digits.**
 
@@ -166,7 +170,7 @@ HashTable
 
 * **If you can do unlimited pre-processing, how would you find the lowest common ancestor of any two nodes in a tree, in O(1) time?**
 
-* **Find the kth largerst number in 2 sorted arrays.**
+* **Find the kth largest number in 2 sorted arrays.**
 
 * **Given a binary tree with key, value pairs, write a function that duplicates the tree and changes the value at one of the keys.**
 
@@ -187,5 +191,3 @@ HashTable
 * **Write a function to remove repeated spaces from a string.**
 
 * **You have String 1 : "abcdefgh". Write a code to remove "ad" so that you are left with "bcefgh".**
-
-* **Check if a tree is symmetric.**

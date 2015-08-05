@@ -47,9 +47,6 @@ I would like to work with a company and people who are not only good at what the
 1. **What is the need for you for obtaining/learning new technologies outside of work, do you think it is necessary and why.**  
 Yes, I am very interested in Web and Mobile Development. During my time at IBM, I spent my free time at home learning new frameworks and web technologies as implement what I have learned by doing pet projects. I think it's necessary because it keeps me up to date with the current technology and also keeps me creative.
 
-1. **What was the challenging work in your career.**  
-Jasper Project.
-
 1. **Describe a time when you had to get a work to be done outside your team.**  
 Front End interface for JUnit testing.
 
@@ -105,6 +102,8 @@ Jasper project.
 
 1. **What type of job I would like in Software Engineering**  
 Front End Developer.
+
+1. **Tell me how you were able to work in a new company and get used to that culture?**
 
 
 ####[[↑]](#toc) <a name='technical'>Technical Questions:</a>
@@ -600,6 +599,12 @@ Medicine Delivery (not finished)
 * **What are memory managed languages, name them.**  
 Java, JavaScript, C#.
 
+* **What is a race condition?**  
+A race condition is an undesirable situation that occurs when a device or system attempts to perform two or more operations at the same time, but because of the nature of the device or system, the operations must be done in the proper sequence to be done correctly.
+
+* **Explain DNS server.**
+Domain Name Servers (DNS) are the Internet's equivalent of a phone book. They maintain a directory of domain names and translate them to Internet Protocol (IP) addresses. This is necessary because, although domain names are easy for people to remember, computers or machines, access websites based on IP addresses.
+
 * **Sudoku algorithm.**
 
 * **How you would create a program for a simple game, like chess or checkers in an OOL.**
@@ -618,3 +623,15 @@ Scope of a variable in a program is the lines of code in the program where the v
 * **Showed me a method signature for a method that would search and replace text in a string. If you were writing unit tests what would you test for?**
 
 * **How would you debug on a real-time parallel processing system?**
+
+* **What information would you need to gather from a patient and which data types would you use and why? Which information would need to be adjusted for the program to be used internationally?**
+
+* **Design a medication class which includes when to begin taking the medication, when to end, proper dosage, and frequency. Write a function to generate a schedule when a patient needs to take their medication. How would you adjust your program to allow for medication which can be taken as needed.**  
+Medication
+
+* **Given a list of processes, describe the potential concurrency problems that could occur.**
+
+* **What is a diamond problem?**
+
+
+
